@@ -16,6 +16,11 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, todos: [...action.payload] };
     case ADD_TODO:
       return { ...state, todos: [...state.todos, action.payload] };
+    case DELETE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.payload)
+      };
     case SET_CURRENT_TODO:
       return {
         ...state,

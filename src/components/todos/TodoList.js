@@ -10,6 +10,13 @@ const TodoList = ({ todos, fetchTodos }) => {
     fetchTodos();
   }, [fetchTodos]);
 
+  const renderTodoList = () => {
+    if (todos.length > 0) {
+      return todos.map(todo => <TodoItem todo={todo} key={todo.id} />);
+    }
+    return 'Please add some todos';
+  };
+
   return (
     <div className="columns is-mobile is-multiline is-centered">
       <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
@@ -22,11 +29,10 @@ const TodoList = ({ todos, fetchTodos }) => {
             maxHeight: '350px',
             scrollbarWidth: 'none',
             minWidth: '200px',
-            overflowY: 'auto'
+            overflowY: 'auto',
+            marginBottom: '12px'
           }}>
-          {todos.map(todo => (
-            <TodoItem todo={todo} key={todo.id} />
-          ))}
+          {renderTodoList()}
         </div>
         <Link
           className="button is-pulled-right is-danger is-rounded"

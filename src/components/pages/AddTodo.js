@@ -5,7 +5,9 @@ import TodoForm from '../todos/TodoForm';
 import { addTodo } from '../../actions';
 
 const AddTodo = ({ addTodo }) => {
-  const onSubmit = value => addTodo(value);
+  const onSubmit = value => {
+    addTodo({ ...value, isCompleted: false });
+  };
 
   return (
     <section className="section">

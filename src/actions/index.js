@@ -24,10 +24,18 @@ export const fetchTodos = () => async dispatch => {
 export const addTodo = newTodo => async dispatch => {
   try {
     const res = await todo.post('/todos', newTodo);
-    console.log(res.data);
 
     dispatch({ type: ADD_TODO, payload: res.data });
     history.push('/');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteTodo = id => async dispatch => {
+  try {
+    await todo.delete(`/todos/${id}`);
+    dispatch({ type: DELETE_TODO, payload: id });
   } catch (error) {
     console.log(error);
   }
