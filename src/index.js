@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+//css
+import 'bulma/css/bulma.css';
+import 'bulma-divider/dist/css/bulma-divider.min.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
