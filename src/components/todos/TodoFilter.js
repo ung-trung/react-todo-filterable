@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import DateFilterInput from '../layouts/DateFilterInput';
-import today from '../utils/todayString';
+
+import today from '../utils/today';
 
 const TodoFilter = () => {
   return (
@@ -11,7 +13,14 @@ const TodoFilter = () => {
   );
 };
 
-export default reduxForm({
-  form: 'daySort',
-  initialValues: { selectedDay: today }
-})(TodoFilter);
+const mapStateToProps = state => ({
+  initialValues: state.filter.currentSelected
+    ? { selectedDay: state.filter.currentSelected }
+    : { selectedDay: today }
+});
+
+export default connect(mapStateToProps)(
+  reduxForm({
+    form: 'daySort'
+  })(TodoFilter)
+);

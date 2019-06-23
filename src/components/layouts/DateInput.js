@@ -3,7 +3,7 @@ import RenderDateInput from './RenderDateInput';
 
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import today from '../utils/todayString';
+import today from '../utils/today';
 
 export const DateInput = props => {
   const { label, input, meta } = props;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { setCurrentSelectedDay } from '../../actions';
 
 import RenderDateInput from './RenderDateInput';
 
@@ -30,7 +31,10 @@ export const DateFilterInput = props => {
         modifiersStyles: { ...modifiersStyles }
       }}
       value={input.value}
-      onDayChange={input.onChange}
+      onDayChange={e => {
+        input.onChange(e);
+        props.setCurrentSelectedDay(e);
+      }}
       component={RenderDateInput}
     />
   );
@@ -42,4 +46,7 @@ const mapStateToProps = state => ({
   )
 });
 
-export default connect(mapStateToProps)(DateFilterInput);
+export default connect(
+  mapStateToProps,
+  { setCurrentSelectedDay }
+)(DateFilterInput);

@@ -7,24 +7,25 @@ import TodoItem from './TodoItem';
 import TodoFilter from './TodoFilter';
 
 import formatDateString from '../utils/formatDateString';
-import today from '../utils/todayString';
+import today from '../utils/today';
 
 const TodoList = ({ todos, selectedDay, fetchTodos }) => {
   useEffect(() => {
     fetchTodos();
   }, [fetchTodos]);
 
-  const renderTodoList = () => {
-    let tempDate;
+  //define tempDateString
+  let tempDateString;
 
+  const renderTodoList = () => {
     if (selectedDay.daySort !== undefined) {
       //define selectedDate if available
       const selectedDateString = formatDateString(
         new Date(selectedDay.daySort.values.selectedDay)
       );
 
-      //set tempDate to render notification
-      tempDate = selectedDateString;
+      //set tempDateString to render notification
+      tempDateString = selectedDateString;
 
       //define selectedTodos via comparing todo date and selectedDate
       const selectedTodos = todos.filter(todo => {
@@ -45,16 +46,19 @@ const TodoList = ({ todos, selectedDay, fetchTodos }) => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    if (typeof tempDate === 'string') {
-      if (tempDate === formatDateString(today)) {
-        return `Please add some todos for today.`;
+    if (typeof tempDateString === 'string') {
+      if (tempDateString < formatDateString(today)) {
+        return 'You cannot add New Todo in the past.';
       }
-      if (tempDate === formatDateString(tomorrow)) {
+      if (tempDateString === formatDateString(today)) {
+        return 'Please add some todos for today.';
+      }
+      if (tempDateString === formatDateString(tomorrow)) {
         return `Please add some todos for tomorrow.`;
       }
     }
 
-    return `Please add some todos for the day ${tempDate}.`;
+    return `Please add some todos for the day ${tempDateString}.`;
   };
 
   return (
@@ -76,7 +80,9 @@ const TodoList = ({ todos, selectedDay, fetchTodos }) => {
           }}>
           {renderTodoList()}
         </div>
-        <Link className="button is-pulled-right is-danger" to="/addTodo">
+        <Link
+          className={tempDateString < formatDateString(today) ? 'button is-pulled-right is-light is-rounded is-loading' : 'button is-pulled-right is-danger is-rounded'}
+          to={tempDateString < formatDateString(today) ? '/' : '/addTodo'}>
           <span className="icon">
             <i className="fas fa-plus" />
           </span>

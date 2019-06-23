@@ -5,7 +5,8 @@ import {
   SET_CURRENT_TODO,
   CLEAR_CURRENT_TODO,
   SET_TODO_COMPLETE,
-  UNSET_TODO_COMPLETE
+  UNSET_TODO_COMPLETE,
+  SET_CURRENT_SELECTE_DAY
 } from './types';
 
 import todo from '../apis/todo';
@@ -78,3 +79,8 @@ export const unsetTodoComplete = id => async (dispatch, getState) => {
     console.log(error);
   }
 };
+
+export const setCurrentSelectedDay = date => ({
+  type: SET_CURRENT_SELECTE_DAY,
+  payload: date
+});
