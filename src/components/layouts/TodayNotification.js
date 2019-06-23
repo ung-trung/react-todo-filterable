@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import today from '../utils/today';
 import formatDateString from '../utils/formatDateString';
+import morningQuote from '../utils/getRandomQuote';
 
 const TodayNotification = () => {
   const [showTodayNoti, setShowTodayNoti] = useState(true);
@@ -15,8 +16,8 @@ const TodayNotification = () => {
                   className="delete"
                   onClick={() => setShowTodayNoti(false)}
                 />
-                Today is: <strong>{formatDateString(today)}</strong>, I wish you
-                have a good day ^_^
+                Today is: <strong>{formatDateString(today)}</strong>.{' '}
+                {morningQuote}
               </div>
             </div>
           </div>

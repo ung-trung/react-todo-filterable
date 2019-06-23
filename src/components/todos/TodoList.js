@@ -10,7 +10,7 @@ import ProgressBar from '../layouts/ProgressBar';
 
 import formatDateString from '../utils/formatDateString';
 import today from '../utils/today';
-import { getDisplayedTodos } from '../utils/getDisplayedTodos';
+import getDisplayedTodos from '../utils/getDisplayedTodos';
 
 const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
   const selectedDayString = formatDateString(new Date(selectedDay));

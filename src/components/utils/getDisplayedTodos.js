@@ -1,6 +1,6 @@
 import formatDateString from './formatDateString';
 
-export const getDisplayedTodos = (todos, selectedDay) =>
+export default (todos, selectedDay) =>
   todos.filter(
     todo =>
       formatDateString(new Date(todo.createDate)) ===

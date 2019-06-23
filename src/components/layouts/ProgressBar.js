@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getDisplayedTodos } from '../utils/getDisplayedTodos';
+import getDisplayedTodos from '../utils/getDisplayedTodos';
 
 const ProgressBar = ({ displayTodos }) => {
   const getProgress = todos => {
