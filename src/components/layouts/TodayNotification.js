@@ -7,7 +7,7 @@ const TodayNotification = () => {
   return (
     <>
       {showTodayNoti && (
-        <div className="section">
+        <div className="section" style={{ paddingTop: '24px' }}>
           <div className="columns is-mobile is-multiline is-centered">
             <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
               <div className="notification is-warning has-text-centered">

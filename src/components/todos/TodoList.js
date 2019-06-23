@@ -6,59 +6,41 @@ import { Link } from 'react-router-dom';
 import TodoItem from './TodoItem';
 import TodoFilter from './TodoFilter';
 
+import ProgressBar from '../layouts/ProgressBar';
+
 import formatDateString from '../utils/formatDateString';
 import today from '../utils/today';
+import { getDisplayedTodos } from '../utils/getDisplayedTodos';
 
-const TodoList = ({ todos, selectedDay, fetchTodos }) => {
+const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
+  const selectedDayString = formatDateString(new Date(selectedDay));
+
   useEffect(() => {
     fetchTodos();
   }, [fetchTodos]);
 
-  //define tempDateString
-  let tempDateString;
-
   const renderTodoList = () => {
-    if (selectedDay.daySort !== undefined) {
-      //define selectedDate if available
-      const selectedDateString = formatDateString(
-        new Date(selectedDay.daySort.values.selectedDay)
-      );
+    return sortedDisplayedTodos.map(todo => (
+      <TodoItem todo={todo} key={todo.id} />
+    ));
+  };
 
-      //set tempDateString to render notification
-      tempDateString = selectedDateString;
-
-      //define selectedTodos via comparing todo date and selectedDate
-      const selectedTodos = todos.filter(todo => {
-        const createDateString = formatDateString(new Date(todo.createDate));
-
-        return createDateString === selectedDateString;
-      });
-
-      //print results
-      if (selectedTodos.length > 0) {
-        return selectedTodos.map(todo => (
-          <TodoItem todo={todo} key={todo.id} />
-        ));
-      }
-    }
-
+  const renderText = () => {
     //declare tomorrow date
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    if (typeof tempDateString === 'string') {
-      if (tempDateString < formatDateString(today)) {
-        return 'You cannot add New Todo in the past.';
-      }
-      if (tempDateString === formatDateString(today)) {
-        return 'Please add some todos for today.';
-      }
-      if (tempDateString === formatDateString(tomorrow)) {
-        return `Please add some todos for tomorrow.`;
-      }
+    if (selectedDayString < formatDateString(today)) {
+      return 'You cannot add New Todo in the past.';
+    }
+    if (selectedDayString === formatDateString(today)) {
+      return 'Please add some todos for today.';
+    }
+    if (selectedDayString === formatDateString(tomorrow)) {
+      return `Please add some todos for tomorrow.`;
     }
 
-    return `Please add some todos for the day ${tempDateString}.`;
+    return `Please add some todos for the day ${selectedDayString}.`;
   };
 
   return (
@@ -67,29 +49,33 @@ const TodoList = ({ todos, selectedDay, fetchTodos }) => {
         <h1 className="title" style={{ marginBottom: '6px' }}>
           My Tasks
         </h1>
-        <TodoFilter />
-        <hr className="is-divider" style={{ marginBlockStart: '2px' }} />
 
+        <TodoFilter />
+        <hr
+          className="is-divider"
+          style={{ marginBlockStart: '2px', marginBlockEnd: '12px' }}
+        />
+        <ProgressBar />
         <div
           style={{
             maxHeight: '350px',
             scrollbarWidth: 'none',
             minWidth: '200px',
             overflowY: 'auto',
-            marginBottom: '12px'
+            marginBottom: '15px'
           }}>
-          {renderTodoList()}
+          {sortedDisplayedTodos.length > 0 ? renderTodoList() : renderText()}
         </div>
         <Link
           className={
             // @ts-ignore
-            tempDateString < formatDateString(today)
+            selectedDayString < formatDateString(today)
               ? 'button is-pulled-right is-light is-loading'
               : 'button is-pulled-right is-danger'
           }
           to={
             // @ts-ignore
-            tempDateString < formatDateString(today) ? '/' : '/addTodo'
+            selectedDayString < formatDateString(today) ? '/' : '/addTodo'
           }>
           <span className="icon">
             <i className="fas fa-plus" />
@@ -102,8 +88,23 @@ const TodoList = ({ todos, selectedDay, fetchTodos }) => {
 };
 
 const mapStateToProps = state => ({
-  todos: state.todos.todos,
-  selectedDay: state.form
+  selectedDay:
+    state.form.daySort !== undefined
+      ? state.form.daySort.values.selectedDay
+      : new Date(),
+  sortedDisplayedTodos:
+    state.form.daySort !== undefined
+      ? getDisplayedTodos(
+          state.todos.todos,
+          state.form.daySort.values.selectedDay
+        ).sort((a, b) => {
+          if (a.isCompleted === b.isCompleted) {
+            return a.purpose > b.purpose ? -1 : 1;
+          } else {
+            return a.isCompleted ? 1 : -1;
+          }
+        })
+      : []
 });
 
 export default connect(
