@@ -6,6 +6,8 @@ import DateInput from '../layouts/DateInput';
 import RenderTextInput from '../layouts/RenderTextInput';
 import RenderRadio from '../layouts/RenderRadio';
 
+import today from '../utils/todayString';
+
 const validate = ({ header, description, createDate, purpose }) => {
   const errors = {};
 
@@ -87,5 +89,9 @@ const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
   );
 };
 
-// @ts-ignore
-export default reduxForm({ form: 'todoForm', validate })(TodoForm);
+export default reduxForm({
+  form: 'todoForm',
+  initialValues: { createDate: today },
+  validate
+  // @ts-ignore
+})(TodoForm);
