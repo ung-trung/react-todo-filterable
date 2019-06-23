@@ -5,6 +5,7 @@ import store from './store';
 import history from './history';
 
 import NavBar from './components/layouts/NavBar';
+import TodayNotification from './components/layouts/TodayNotification';
 
 import Home from './components/pages/Home';
 import About from './components/pages/About';
@@ -24,6 +25,8 @@ function App() {
           <Route path="/editTodo/:id" exact component={EditTodo} />
         </Switch>
       </Router>
+
+      <TodayNotification />
     </Provider>
   );
 }
