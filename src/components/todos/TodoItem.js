@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   setCurrentTodo,
   clearCurrentTodo,
   setTodoComplete,
   unsetTodoComplete,
-  deleteTodo
+  deleteTodo,
+  editTodo
 } from '../../actions';
 
 const TodoItem = ({
@@ -16,7 +18,8 @@ const TodoItem = ({
   clearCurrentTodo,
   setTodoComplete,
   unsetTodoComplete,
-  deleteTodo
+  deleteTodo,
+  editTodo
 }) => {
   const { header, description, id, isCompleted, purpose } = todo;
 
@@ -110,12 +113,12 @@ const TodoItem = ({
               Type: {renderPurposeTag()}
               <p>Description: {description}</p>
               <div className="buttons">
-                <div className="button is-info">
+                <Link className="button is-info" to={`/editTodo/${id}`}>
                   <span className="icon">
                     <i className="fas fa-edit" />
                   </span>
                   <span>Edit</span>
-                </div>
+                </Link>
 
                 <div
                   className="button is-danger"
@@ -145,6 +148,7 @@ export default connect(
     clearCurrentTodo,
     setTodoComplete,
     unsetTodoComplete,
-    deleteTodo
+    deleteTodo,
+    editTodo
   }
 )(TodoItem);

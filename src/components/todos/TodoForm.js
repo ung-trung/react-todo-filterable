@@ -1,14 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
+
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 
 import DateInput from '../layouts/DateInput';
 import RenderTextInput from '../layouts/RenderTextInput';
 import RenderRadio from '../layouts/RenderRadio';
-
-import formatDateString from '../utils/formatDateString';
-import today from '../utils/today';
 
 const validate = ({ header, description, createDate, purpose }) => {
   const errors = {};
@@ -47,7 +44,7 @@ const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
         type="text"
         component={RenderTextInput}
         label="Enter Description"
-        placeholder="Banana..."
+        placeholder="Bring a banana..."
       />
       <div className="field">
         <label className="label">Choose Type</label>
@@ -82,7 +79,7 @@ const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
           </Link>
         </div>
         <div className="control">
-          <button className="button is-danger is-rounded" type="submit">
+          <button className="button is-danger" type="submit">
             {buttonText}
           </button>
         </div>
@@ -91,16 +88,8 @@ const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  initialValues: state.filter.currentSelected
-    ? { createDate: formatDateString(state.filter.currentSelected) }
-    : { createDate: formatDateString(today) }
-});
-
-export default connect(mapStateToProps)(
-  reduxForm({
-    form: 'todoForm',
-    validate
-    // @ts-ignore
-  })(TodoForm)
-);
+export default reduxForm({
+  form: 'todoForm',
+  validate
+  // @ts-ignore
+})(TodoForm);

@@ -9,6 +9,7 @@ import NavBar from './components/layouts/NavBar';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import AddTodo from './components/pages/AddTodo';
+import EditTodo from './components/pages/EditTodo';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/about" exact component={About} />
           <Route path="/addTodo" exact component={AddTodo} />
+          <Route path="/editTodo/:id" exact component={EditTodo} />
         </Switch>
       </Router>
     </Provider>

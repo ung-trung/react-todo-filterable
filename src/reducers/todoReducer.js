@@ -1,7 +1,9 @@
 import {
   FETCH_TODOS,
+  FETCH_TODO,
   ADD_TODO,
   DELETE_TODO,
+  EDIT_TODO,
   SET_CURRENT_TODO,
   CLEAR_CURRENT_TODO,
   SET_TODO_COMPLETE,
@@ -14,6 +16,13 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FETCH_TODOS:
       return { ...state, todos: [...action.payload] };
+    case FETCH_TODO:
+      return {
+        ...state,
+        todos: state.todos.some(todo => todo.id === action.payload.id)
+          ? [...state.todos]
+          : [...state.todos, action.payload]
+      };
     case ADD_TODO:
       return { ...state, todos: [...state.todos, action.payload] };
     case DELETE_TODO:
@@ -33,6 +42,7 @@ export default (state = INITIAL_STATE, action) => {
       };
     case SET_TODO_COMPLETE:
     case UNSET_TODO_COMPLETE:
+    case EDIT_TODO:
       return {
         ...state,
         todos: state.todos.map(todo =>

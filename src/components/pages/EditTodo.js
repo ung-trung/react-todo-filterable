@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import TodoForm from '../todos/TodoForm';
 
-import { addTodo } from '../../actions';
-import formatDateString from '../utils/formatDateString';
-import today from '../utils/today';
+import { editTodo, fetchTodo, setCurrentTodo } from '../../actions';
 
-const AddTodo = ({ addTodo, initialValues }) => {
+const EditTodo = ({
+  editTodo,
+  fetchTodo,
+  setCurrentTodo,
+  match,
+  currentTodo
+}) => {
+  useEffect(() => {
+    fetchTodo(match.params.id)
+      .then(result => {
+        setCurrentTodo(match.params.id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [fetchTodo, match.params.id, setCurrentTodo]);
+
   const onSubmit = value => {
-    addTodo({ ...value, isCompleted: false });
+    editTodo({ ...value });
   };
 
   return (
@@ -16,13 +30,13 @@ const AddTodo = ({ addTodo, initialValues }) => {
       <div className="columns is-mobile is-multiline is-centered">
         <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
           <h1 className="title" style={{ marginBottom: '12px' }}>
-            New Todo
+            Edit Todo
           </h1>
           <hr className="is-divider" style={{ marginBlockStart: '0' }} />
           <TodoForm
-            buttonText="Add new Todo"
+            buttonText="Submit"
             onSubmit={onSubmit}
-            initialValues={{ ...initialValues }}
+            initialValues={currentTodo !== null ? { ...currentTodo } : null}
           />
         </div>
       </div>
@@ -31,12 +45,10 @@ const AddTodo = ({ addTodo, initialValues }) => {
 };
 
 const mapStateToProps = state => ({
-  initialValues: state.filter.currentSelected
-    ? { createDate: formatDateString(state.filter.currentSelected) }
-    : { createDate: formatDateString(today) }
+  currentTodo: state.todos.currentTodo
 });
 
 export default connect(
   mapStateToProps,
-  { addTodo }
-)(AddTodo);
+  { editTodo, fetchTodo, setCurrentTodo }
+)(EditTodo);

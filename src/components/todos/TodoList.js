@@ -81,8 +81,16 @@ const TodoList = ({ todos, selectedDay, fetchTodos }) => {
           {renderTodoList()}
         </div>
         <Link
-          className={tempDateString < formatDateString(today) ? 'button is-pulled-right is-light is-rounded is-loading' : 'button is-pulled-right is-danger is-rounded'}
-          to={tempDateString < formatDateString(today) ? '/' : '/addTodo'}>
+          className={
+            // @ts-ignore
+            tempDateString < formatDateString(today)
+              ? 'button is-pulled-right is-light is-loading'
+              : 'button is-pulled-right is-danger'
+          }
+          to={
+            // @ts-ignore
+            tempDateString < formatDateString(today) ? '/' : '/addTodo'
+          }>
           <span className="icon">
             <i className="fas fa-plus" />
           </span>

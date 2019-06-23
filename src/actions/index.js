@@ -1,7 +1,9 @@
 import {
   FETCH_TODOS,
+  FETCH_TODO,
   ADD_TODO,
   DELETE_TODO,
+  EDIT_TODO,
   SET_CURRENT_TODO,
   CLEAR_CURRENT_TODO,
   SET_TODO_COMPLETE,
@@ -22,6 +24,15 @@ export const fetchTodos = () => async dispatch => {
   }
 };
 
+export const fetchTodo = id => async dispatch => {
+  try {
+    const res = await todo.get(`/todos/${id}`);
+    dispatch({ type: FETCH_TODO, payload: res.data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addTodo = newTodo => async dispatch => {
   try {
     const res = await todo.post('/todos', newTodo);
@@ -37,6 +48,16 @@ export const deleteTodo = id => async dispatch => {
   try {
     await todo.delete(`/todos/${id}`);
     dispatch({ type: DELETE_TODO, payload: id });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editTodo = newTodo => async dispatch => {
+  try {
+    const res = await todo.patch(`/todos/${newTodo.id}`, newTodo);
+    dispatch({ type: EDIT_TODO, payload: res.data });
+    history.push('/');
   } catch (error) {
     console.log(error);
   }
