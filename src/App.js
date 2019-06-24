@@ -11,6 +11,12 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import AddTodo from './components/pages/AddTodo';
 import EditTodo from './components/pages/EditTodo';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+
+import setAuthToken from './components/utils/setAuthToken';
+
+setAuthToken(localStorage.token);
 
 function App() {
   return (
@@ -23,6 +29,8 @@ function App() {
           <Route path="/about" exact component={About} />
           <Route path="/addTodo" exact component={AddTodo} />
           <Route path="/editTodo/:id" exact component={EditTodo} />
+          <Route path="/signup" exact component={Register} />
+          <Route path="/login" exact component={Login} />
         </Switch>
       </Router>
 

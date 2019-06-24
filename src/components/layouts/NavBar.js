@@ -7,7 +7,6 @@ const NavBar = props => {
 
   const burgerClick = () =>
     active === '' ? setActive('is-active') : setActive('');
-  const closeBurgerAfterNavigate = () => (active === '' ? null : setActive(''));
 
   return (
     <nav className="navbar is-danger is-fixed-top">
@@ -28,21 +27,29 @@ const NavBar = props => {
         </div>
         <div className={`navbar-menu ${active}`}>
           <div className="navbar-start">
-            <Link
-              className="navbar-item is-tab"
-              to="/"
-              onClick={closeBurgerAfterNavigate}>
+            <Link className="navbar-item is-tab" to="/" onClick={burgerClick}>
               Home
             </Link>
-            <div className="navbar-divider" />
             <Link
               className="navbar-item is-tab"
               to="/about"
-              onClick={closeBurgerAfterNavigate}>
+              onClick={burgerClick}>
               About
             </Link>
           </div>
-          <div className="navbar-item" />
+
+          <div className="navbar-end">
+            <div className="navbar-item" onClick={burgerClick}>
+              <div className="buttons">
+                <Link to="/signup" className="button is-light">
+                  Sign up
+                </Link>
+                <Link to="/login" className="button is-light">
+                  Log in
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

@@ -8,12 +8,22 @@ import {
   CLEAR_CURRENT_TODO,
   SET_TODO_COMPLETE,
   UNSET_TODO_COMPLETE,
-  SET_CURRENT_SELECTE_DAY
+  SET_CURRENT_SELECTE_DAY,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
+  CLEAR_ERRORS
 } from './types';
 
+import axios from 'axios';
 import todo from '../apis/todo';
 
 import history from '../history';
+import setAuthToken from '../components/utils/setAuthToken';
 
 export const fetchTodos = () => async dispatch => {
   try {
@@ -105,3 +115,19 @@ export const setCurrentSelectedDay = date => ({
   type: SET_CURRENT_SELECTE_DAY,
   payload: date
 });
+
+// Load User
+export const loadUSer = () => async dispatch => {
+  setAuthToken(localStorage.token);
+  try {
+  } catch (error) {
+    dispatch({ type: AUTH_ERROR });
+  }
+};
+// Register User
+
+// Login User
+
+// Logout
+
+// Clear Error
