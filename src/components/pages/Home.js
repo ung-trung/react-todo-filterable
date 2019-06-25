@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TodoList from '../todos/TodoList';
+import { loadUser } from '../../actions';
+import { connect } from 'react-redux';
 
-const Home = () => {
+const Home = ({ loadUser }) => {
+  useEffect(() => {
+    loadUser();
+  }, [loadUser]);
   return (
-    <>
-      <section className="section">
-        <TodoList />
-      </section>
-    </>
+    <section className="section">
+      <TodoList />
+    </section>
   );
 };
 
-export default Home;
+export default connect(
+  null,
+  { loadUser }
+)(Home);

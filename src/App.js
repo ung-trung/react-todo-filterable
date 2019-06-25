@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
+import PrivateRoute from './components/routing/PrivateRoute';
 import { Provider } from 'react-redux';
 import store from './store';
 import history from './history';
@@ -25,10 +26,10 @@ function App() {
         <NavBar />
 
         <Switch>
-          <Route path="/" exact component={Home} />
+          <PrivateRoute path="/" exact component={Home} />
           <Route path="/about" exact component={About} />
-          <Route path="/addTodo" exact component={AddTodo} />
-          <Route path="/editTodo/:id" exact component={EditTodo} />
+          <PrivateRoute path="/addTodo" exact component={AddTodo} />
+          <PrivateRoute path="/editTodo/:id" exact component={EditTodo} />
           <Route path="/signup" exact component={Register} />
           <Route path="/login" exact component={Login} />
         </Switch>

@@ -21,7 +21,7 @@ const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
 
   const renderTodoList = () => {
     return sortedDisplayedTodos.map(todo => (
-      <TodoItem todo={todo} key={todo.id} />
+      <TodoItem todo={todo} key={todo._id} />
     ));
   };
 

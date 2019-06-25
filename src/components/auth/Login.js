@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import RenderTextInput from '../layouts/RenderTextInput';
+import { login, loadUser } from '../../actions';
 
-const Login = () => {
+const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
+  useEffect(() => {
+    loadUser();
+
+    if (isAuthenticated) {
+      history.push('/');
+    }
+  }, [history, isAuthenticated, loadUser]);
+
   return (
     <section className="section">
       <div className="columns is-mobile is-multiline is-centered">
@@ -12,7 +21,11 @@ const Login = () => {
             Log In
           </h1>
           <hr className="is-divider" style={{ marginBlockStart: '0' }} />
-          <form>
+          <form
+            onSubmit={handleSubmit(value => {
+              console.log(value);
+              login(value);
+            })}>
             <Field
               name="email"
               type="email"
@@ -25,6 +38,11 @@ const Login = () => {
               component={RenderTextInput}
               placeholder="Enter Password"
             />
+            <div className="control">
+              <button className="button is-danger" type="submit">
+                Login
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -32,4 +50,12 @@ const Login = () => {
   );
 };
 
-export default connect()(reduxForm({ form: 'login' })(Login));
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+  mapStateToProps,
+  { login, loadUser }
+  // @ts-ignore
+)(reduxForm({ form: 'login' })(Login));

@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../actions';
 
-const NavBar = props => {
+const NavBar = ({ isAuthenticated, logout }) => {
   const [active, setActive] = useState('');
-
   const burgerClick = () =>
     active === '' ? setActive('is-active') : setActive('');
 
@@ -40,14 +41,20 @@ const NavBar = props => {
 
           <div className="navbar-end">
             <div className="navbar-item" onClick={burgerClick}>
-              <div className="buttons">
-                <Link to="/signup" className="button is-light">
-                  Sign up
-                </Link>
-                <Link to="/login" className="button is-light">
-                  Log in
-                </Link>
-              </div>
+              {isAuthenticated ? (
+                <div className="button is-light" onClick={logout}>
+                  Logout
+                </div>
+              ) : (
+                <div className="buttons">
+                  <Link to="/signup" className="button is-light">
+                    Sign up
+                  </Link>
+                  <Link to="/login" className="button is-light">
+                    Log in
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -56,4 +63,11 @@ const NavBar = props => {
   );
 };
 
-export default NavBar;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(NavBar);

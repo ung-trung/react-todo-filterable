@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import RenderTextInput from '../layouts/RenderTextInput';
+import { registerUser, loadUser } from '../../actions';
 
-const Register = ({ handleSubmit }) => {
+const Register = ({
+  handleSubmit,
+  registerUser,
+  loadUser,
+  isAuthenticated,
+  history
+}) => {
+  useEffect(() => {
+    loadUser();
+    if (isAuthenticated) {
+      history.push('/');
+    }
+  }, [history, isAuthenticated, loadUser]);
+
   return (
     <section className="section">
       <div className="columns is-mobile is-multiline is-centered">
@@ -12,7 +26,11 @@ const Register = ({ handleSubmit }) => {
             Sign Up
           </h1>
           <hr className="is-divider" style={{ marginBlockStart: '0' }} />
-          <form onSubmit={handleSubmit(value => console.log(value))}>
+          <form
+            onSubmit={handleSubmit(value => {
+              const { firstName, lastName, username, email, password } = value;
+              registerUser({ firstName, lastName, username, email, password });
+            })}>
             <Field
               name="firstName"
               type="text"
@@ -49,10 +67,11 @@ const Register = ({ handleSubmit }) => {
               type="password"
               component={RenderTextInput}
             />
-
-            <button className="button is-danger" type="submit">
-              Register
-            </button>
+            <div className="control">
+              <button className="button is-danger" type="submit">
+                Register
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -60,4 +79,12 @@ const Register = ({ handleSubmit }) => {
   );
 };
 
-export default connect()(reduxForm({ form: 'login' })(Register));
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+  mapStateToProps,
+  { registerUser, loadUser }
+  // @ts-ignore
+)(reduxForm({ form: 'login' })(Register));

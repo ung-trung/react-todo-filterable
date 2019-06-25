@@ -7,8 +7,7 @@ import {
   clearCurrentTodo,
   setTodoComplete,
   unsetTodoComplete,
-  deleteTodo,
-  editTodo
+  deleteTodo
 } from '../../actions';
 
 const TodoItem = ({
@@ -18,14 +17,13 @@ const TodoItem = ({
   clearCurrentTodo,
   setTodoComplete,
   unsetTodoComplete,
-  deleteTodo,
-  editTodo
+  deleteTodo
 }) => {
-  const { header, description, id, isCompleted, purpose } = todo;
+  const { header, description, _id, isCompleted, purpose } = todo;
 
   const isExpand = () => {
     if (currentTodo) {
-      if (currentTodo.id === id) {
+      if (currentTodo._id === _id) {
         return true;
       } else return false;
     } else return false;
@@ -77,10 +75,10 @@ const TodoItem = ({
           style={{ cursor: 'pointer' }}
           onClick={
             isCompleted
-              ? () => unsetTodoComplete(id)
+              ? () => unsetTodoComplete(_id)
               : () => {
                   clearCurrentTodo();
-                  setTodoComplete(id);
+                  setTodoComplete(_id);
                 }
           }>
           {renderCheckbox()}
@@ -97,7 +95,7 @@ const TodoItem = ({
 
         <div
           className="card-header-icon"
-          onClick={isExpand() ? clearCurrentTodo : () => setCurrentTodo(id)}>
+          onClick={isExpand() ? clearCurrentTodo : () => setCurrentTodo(_id)}>
           {isCompleted
             ? null
             : isExpand()
@@ -113,7 +111,7 @@ const TodoItem = ({
               Type: {renderPurposeTag()}
               <p>Description: {description}</p>
               <div className="buttons">
-                <Link className="button is-info" to={`/editTodo/${id}`}>
+                <Link className="button is-info" to={`/editTodo/${_id}`}>
                   <span className="icon">
                     <i className="fas fa-edit" />
                   </span>
@@ -122,7 +120,7 @@ const TodoItem = ({
 
                 <div
                   className="button is-danger"
-                  onClick={() => deleteTodo(id)}>
+                  onClick={() => deleteTodo(_id)}>
                   <span className="icon">
                     <i className="fas fa-times" />
                   </span>
@@ -148,7 +146,6 @@ export default connect(
     clearCurrentTodo,
     setTodoComplete,
     unsetTodoComplete,
-    deleteTodo,
-    editTodo
+    deleteTodo
   }
 )(TodoItem);

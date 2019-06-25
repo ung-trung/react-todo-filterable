@@ -19,7 +19,7 @@ export default (state = INITIAL_STATE, action) => {
     case FETCH_TODO:
       return {
         ...state,
-        todos: state.todos.some(todo => todo.id === action.payload.id)
+        todos: state.todos.some(todo => todo._id === action.payload._id)
           ? [...state.todos]
           : [...state.todos, action.payload]
       };
@@ -28,12 +28,12 @@ export default (state = INITIAL_STATE, action) => {
     case DELETE_TODO:
       return {
         ...state,
-        todos: state.todos.filter(todo => todo.id !== action.payload)
+        todos: state.todos.filter(todo => todo._id !== action.payload)
       };
     case SET_CURRENT_TODO:
       return {
         ...state,
-        currentTodo: state.todos.find(todo => todo.id === action.payload)
+        currentTodo: state.todos.find(todo => todo._id === action.payload)
       };
     case CLEAR_CURRENT_TODO:
       return {
@@ -46,7 +46,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         todos: state.todos.map(todo =>
-          todo.id === action.payload.id ? action.payload : todo
+          todo._id === action.payload._id ? action.payload : todo
         )
       };
     default:

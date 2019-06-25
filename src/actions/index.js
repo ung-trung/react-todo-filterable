@@ -19,15 +19,19 @@ import {
   CLEAR_ERRORS
 } from './types';
 
+import { isArray } from 'util';
+
 import axios from 'axios';
-import todo from '../apis/todo';
 
 import history from '../history';
 import setAuthToken from '../components/utils/setAuthToken';
 
 export const fetchTodos = () => async dispatch => {
   try {
-    const res = await todo.get('/todos');
+    const res = await axios.get(
+      'https://trinhtodo-new-api.herokuapp.com/api/todos'
+    );
+
     dispatch({ type: FETCH_TODOS, payload: res.data });
   } catch (error) {
     console.log(error);
@@ -36,7 +40,9 @@ export const fetchTodos = () => async dispatch => {
 
 export const fetchTodo = id => async dispatch => {
   try {
-    const res = await todo.get(`/todos/${id}`);
+    const res = await axios.get(
+      `https://trinhtodo-new-api.herokuapp.com/api/todos/${id}`
+    );
     dispatch({ type: FETCH_TODO, payload: res.data });
   } catch (error) {
     console.log(error);
@@ -44,8 +50,17 @@ export const fetchTodo = id => async dispatch => {
 };
 
 export const addTodo = newTodo => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
   try {
-    const res = await todo.post('/todos', newTodo);
+    const res = await axios.post(
+      'https://trinhtodo-new-api.herokuapp.com/api/todos',
+      newTodo,
+      config
+    );
 
     dispatch({ type: ADD_TODO, payload: res.data });
     history.push('/');
@@ -56,7 +71,9 @@ export const addTodo = newTodo => async dispatch => {
 
 export const deleteTodo = id => async dispatch => {
   try {
-    await todo.delete(`/todos/${id}`);
+    await axios.delete(
+      `https://trinhtodo-new-api.herokuapp.com/api/todos/${id}`
+    );
     dispatch({ type: DELETE_TODO, payload: id });
   } catch (error) {
     console.log(error);
@@ -64,8 +81,17 @@ export const deleteTodo = id => async dispatch => {
 };
 
 export const editTodo = newTodo => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
   try {
-    const res = await todo.patch(`/todos/${newTodo.id}`, newTodo);
+    const res = await axios.patch(
+      `https://trinhtodo-new-api.herokuapp.com/api/todos/${newTodo._id}`,
+      newTodo,
+      config
+    );
     dispatch({ type: EDIT_TODO, payload: res.data });
     history.push('/');
   } catch (error) {
@@ -83,12 +109,21 @@ export const clearCurrentTodo = () => dispatch => {
 
 export const setTodoComplete = id => async (dispatch, getState) => {
   try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
     const currentSelectedTodo = getState().todos.todos.find(
-      todo => todo.id === id
+      todo => todo._id === id
     );
     const completedTodo = { ...currentSelectedTodo, isCompleted: true };
 
-    const res = await todo.patch(`/todos/${id}`, completedTodo);
+    const res = await axios.patch(
+      `https://trinhtodo-new-api.herokuapp.com/api/todos/${id}`,
+      completedTodo,
+      config
+    );
 
     dispatch({ type: SET_TODO_COMPLETE, payload: res.data });
   } catch (error) {
@@ -98,12 +133,22 @@ export const setTodoComplete = id => async (dispatch, getState) => {
 
 export const unsetTodoComplete = id => async (dispatch, getState) => {
   try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
     const currentSelectedTodo = getState().todos.todos.find(
-      todo => todo.id === id
+      todo => todo._id === id
     );
+
     const uncompletedTodo = { ...currentSelectedTodo, isCompleted: false };
 
-    const res = await todo.patch(`/todos/${id}`, uncompletedTodo);
+    const res = await axios.patch(
+      `https://trinhtodo-new-api.herokuapp.com/api/todos/${id}`,
+      uncompletedTodo,
+      config
+    );
 
     dispatch({ type: UNSET_TODO_COMPLETE, payload: res.data });
   } catch (error) {
@@ -117,17 +162,66 @@ export const setCurrentSelectedDay = date => ({
 });
 
 // Load User
-export const loadUSer = () => async dispatch => {
+export const loadUser = () => async dispatch => {
   setAuthToken(localStorage.token);
   try {
+    const res = await axios.get(
+      'https://trinhtodo-new-api.herokuapp.com/api/auth'
+    );
+    dispatch({ type: USER_LOADED, payload: res.data });
   } catch (error) {
     dispatch({ type: AUTH_ERROR });
   }
 };
 // Register User
+export const registerUser = formData => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 
+  try {
+    const { data } = await axios.post(
+      'https://trinhtodo-new-api.herokuapp.com/api/users',
+      formData,
+      config
+    );
+
+    dispatch({ type: REGISTER_SUCCESS, payload: data });
+  } catch (error) {
+    const { errors } = error.response.data;
+
+    if (isArray(errors)) {
+      errors.forEach(error =>
+        dispatch({ type: REGISTER_FAIL, payload: error.msg })
+      );
+    }
+
+    dispatch({ type: REGISTER_FAIL, payload: error.response.data.msg });
+  }
+};
 // Login User
+export const login = formData => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  try {
+    const { data } = await axios.post(
+      'https://trinhtodo-new-api.herokuapp.com/api/auth',
+      formData,
+      config
+    );
+    dispatch({ type: LOGIN_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({ type: LOGIN_FAIL, payload: err.response.data.msg });
+  }
+};
 
 // Logout
+export const logout = () => dispatch => dispatch({ type: LOGOUT });
 
 // Clear Error
+export const clearError = () => dispatch => dispatch({ type: CLEAR_ERRORS });

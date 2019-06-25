@@ -1,7 +1,8 @@
 import React from 'react';
+import '../css/loader.css';
 
 const Loader = () => {
-  return <div />;
+  return <div className="lds-hourglass" />;
 };
 
 export default Loader;
