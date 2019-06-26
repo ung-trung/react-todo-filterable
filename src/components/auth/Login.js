@@ -2,17 +2,25 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import RenderTextInput from '../layouts/RenderTextInput';
-import { login, loadUser } from '../../actions';
+import { login, loadUser, clearError } from '../../actions';
 import { Link } from 'react-router-dom';
 
-const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
+const Login = ({
+  handleSubmit,
+  login,
+  loadUser,
+  isAuthenticated,
+  history,
+  loginError,
+  clearError
+}) => {
   useEffect(() => {
     loadUser();
-
+    clearError();
     if (isAuthenticated) {
       history.push('/');
     }
-  }, [history, isAuthenticated, loadUser]);
+  }, [clearError, history, isAuthenticated, loadUser]);
 
   return (
     <section className="section">
@@ -38,6 +46,13 @@ const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
               component={RenderTextInput}
               placeholder="Enter Password"
             />
+            {loginError && (
+              <div className="field">
+                <div className="control">
+                  <p className="help is-danger is-size-6">{loginError}</p>
+                </div>
+              </div>
+            )}
             <div className="field">
               <div className="control">
                 <button className="button is-danger is-fullwidth" type="submit">
@@ -45,6 +60,7 @@ const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
                 </button>
               </div>
             </div>
+
             <div className="field is-pulled-right">
               <div className="control">
                 <Link className="is-link" to="/signup">
@@ -59,12 +75,33 @@ const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
   );
 };
 
+const validate = ({ email, password }) => {
+  const errors = {};
+
+  if (typeof password === 'string') {
+    if (password.length < 6) {
+      errors.password = 'Your password includes at least 6 characters!';
+    }
+  }
+
+  if (!email) {
+    errors.email = 'You must secify your email!';
+  }
+
+  if (!password) {
+    errors.password = 'You must secify your password!';
+  }
+
+  return errors;
+};
+
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  loginError: state.auth.error
 });
 
 export default connect(
   mapStateToProps,
-  { login, loadUser }
+  { login, loadUser, clearError }
   // @ts-ignore
-)(reduxForm({ form: 'login' })(Login));
+)(reduxForm({ form: 'login', validate })(Login));

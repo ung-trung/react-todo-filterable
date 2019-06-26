@@ -10,7 +10,7 @@ import {
   UNSET_TODO_COMPLETE
 } from '../actions/types';
 
-const INITIAL_STATE = { todos: [], currentTodo: null };
+const INITIAL_STATE = { todos: [], currentTodo: null, error: null };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {

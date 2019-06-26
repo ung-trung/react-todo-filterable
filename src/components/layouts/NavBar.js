@@ -47,7 +47,8 @@ const NavBar = ({ isAuthenticated, logout }) => {
                   onClick={() => {
                     burgerClick();
                     logout();
-                  }}>
+                  }}
+                  style={{ cursor: 'pointer' }}>
                   Logout
                 </div>
               </>
