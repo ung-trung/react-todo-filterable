@@ -23,7 +23,6 @@ import { isArray } from 'util';
 
 import todo from '../apis/todo';
 
-import history from '../history';
 import setAuthToken from '../components/utils/setAuthToken';
 
 export const fetchTodos = () => async dispatch => {
@@ -50,7 +49,6 @@ export const addTodo = newTodo => async dispatch => {
     const res = await todo.post('/todos', newTodo);
 
     dispatch({ type: ADD_TODO, payload: res.data });
-    history.push('/');
   } catch (error) {
     console.log(error);
   }
@@ -69,7 +67,6 @@ export const editTodo = newTodo => async dispatch => {
   try {
     const res = await todo.patch(`/todos/${newTodo._id}`, newTodo);
     dispatch({ type: EDIT_TODO, payload: res.data });
-    history.push('/');
   } catch (error) {
     console.log(error);
   }

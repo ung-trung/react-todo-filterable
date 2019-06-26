@@ -15,12 +15,12 @@ const ProgressBar = ({ displayTodos }) => {
     return (numberCompletedTodos / todos.length) * 100;
   };
 
+  const value = getProgress(displayTodos);
+
   return (
-    <progress
-      className="progress is-danger"
-      value={getProgress(displayTodos)}
-      max="100"
-    />
+    <>
+      <progress className="progress is-danger" value={value} max="100" />
+    </>
   );
 };
 

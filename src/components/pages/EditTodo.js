@@ -9,7 +9,8 @@ const EditTodo = ({
   fetchTodos,
   setCurrentTodo,
   match,
-  currentTodo
+  currentTodo,
+  history
 }) => {
   useEffect(() => {
     fetchTodos()
@@ -21,8 +22,9 @@ const EditTodo = ({
       });
   }, [fetchTodos, match.params.id, setCurrentTodo]);
 
-  const onSubmit = value => {
-    editTodo({ ...value });
+  const onSubmit = async value => {
+    await editTodo({ ...value });
+    history.push('/');
   };
 
   return (

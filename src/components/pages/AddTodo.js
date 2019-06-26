@@ -6,9 +6,10 @@ import { addTodo } from '../../actions';
 import formatDateString from '../utils/formatDateString';
 import today from '../utils/today';
 
-const AddTodo = ({ addTodo, initialValues }) => {
-  const onSubmit = value => {
-    addTodo({ ...value, isCompleted: false });
+const AddTodo = ({ addTodo, initialValues, history }) => {
+  const onSubmit = async value => {
+    await addTodo({ ...value, isCompleted: false });
+    history.push('/');
   };
 
   return (

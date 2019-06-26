@@ -1,9 +1,8 @@
 import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/routing/PrivateRoute';
 import { Provider } from 'react-redux';
 import store from './store';
-import history from './history';
 
 import NavBar from './components/layouts/NavBar';
 import TodayNotification from './components/layouts/TodayNotification';
@@ -22,7 +21,7 @@ setAuthToken(localStorage.token);
 function App() {
   return (
     <Provider store={store}>
-      <Router history={history}>
+      <Router>
         <NavBar />
 
         <Switch>
