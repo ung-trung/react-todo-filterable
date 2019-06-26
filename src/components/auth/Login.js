@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import RenderTextInput from '../layouts/RenderTextInput';
 import { login, loadUser } from '../../actions';
+import { Link } from 'react-router-dom';
 
 const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
   useEffect(() => {
@@ -18,7 +19,7 @@ const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
       <div className="columns is-mobile is-multiline is-centered">
         <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
           <h1 className="title" style={{ marginBottom: '12px' }}>
-            Log In
+            Login
           </h1>
           <hr className="is-divider" style={{ marginBlockStart: '0' }} />
           <form
@@ -38,10 +39,19 @@ const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
               component={RenderTextInput}
               placeholder="Enter Password"
             />
-            <div className="control">
-              <button className="button is-danger" type="submit">
-                Login
-              </button>
+            <div className="field">
+              <div className="control">
+                <button className="button is-danger is-fullwidth" type="submit">
+                  Login
+                </button>
+              </div>
+            </div>
+            <div className="field is-pulled-right">
+              <div className="control">
+                <Link className="is-link" to="/signup">
+                  Don't have an account? Sign up here
+                </Link>
+              </div>
             </div>
           </form>
         </div>

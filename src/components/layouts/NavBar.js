@@ -40,22 +40,33 @@ const NavBar = ({ isAuthenticated, logout }) => {
           </div>
 
           <div className="navbar-end">
-            <div className="navbar-item" onClick={burgerClick}>
-              {isAuthenticated ? (
-                <div className="button is-light" onClick={logout}>
+            {isAuthenticated ? (
+              <>
+                <div
+                  className="navbar-item is-tab"
+                  onClick={() => {
+                    burgerClick();
+                    logout();
+                  }}>
                   Logout
                 </div>
-              ) : (
-                <div className="buttons">
-                  <Link to="/signup" className="button is-light">
-                    Sign up
-                  </Link>
-                  <Link to="/login" className="button is-light">
-                    Log in
-                  </Link>
-                </div>
-              )}
-            </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  className="navbar-item is-tab"
+                  to="/login"
+                  onClick={burgerClick}>
+                  Sign In
+                </Link>
+                <Link
+                  className="navbar-item is-tab"
+                  to="/signup"
+                  onClick={burgerClick}>
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

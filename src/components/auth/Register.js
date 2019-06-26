@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import RenderTextInput from '../layouts/RenderTextInput';
 import { registerUser, loadUser } from '../../actions';
@@ -23,7 +24,7 @@ const Register = ({
       <div className="columns is-mobile is-multiline is-centered">
         <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
           <h1 className="title" style={{ marginBottom: '12px' }}>
-            Sign Up
+            Register a new account
           </h1>
           <hr className="is-divider" style={{ marginBlockStart: '0' }} />
           <form
@@ -67,10 +68,19 @@ const Register = ({
               type="password"
               component={RenderTextInput}
             />
-            <div className="control">
-              <button className="button is-danger" type="submit">
-                Register
-              </button>
+            <div className="field">
+              <div className="control">
+                <button className="button is-danger is-fullwidth" type="submit">
+                  Register
+                </button>
+              </div>
+            </div>
+            <div className="field is-pulled-right">
+              <div className="control">
+                <Link className="is-link" to="/login">
+                  Already have an account? Sign in here
+                </Link>
+              </div>
             </div>
           </form>
         </div>
