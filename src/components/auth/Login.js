@@ -24,7 +24,6 @@ const Login = ({ handleSubmit, login, loadUser, isAuthenticated, history }) => {
           <hr className="is-divider" style={{ marginBlockStart: '0' }} />
           <form
             onSubmit={handleSubmit(value => {
-              console.log(value);
               login(value);
             })}>
             <Field

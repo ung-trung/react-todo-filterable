@@ -2,24 +2,24 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import TodoForm from '../todos/TodoForm';
 
-import { editTodo, fetchTodo, setCurrentTodo } from '../../actions';
+import { editTodo, fetchTodos, setCurrentTodo } from '../../actions';
 
 const EditTodo = ({
   editTodo,
-  fetchTodo,
+  fetchTodos,
   setCurrentTodo,
   match,
   currentTodo
 }) => {
   useEffect(() => {
-    fetchTodo(match.params.id)
+    fetchTodos()
       .then(result => {
         setCurrentTodo(match.params.id);
       })
       .catch(err => {
         console.log(err);
       });
-  }, [fetchTodo, match.params.id, setCurrentTodo]);
+  }, [fetchTodos, match.params.id, setCurrentTodo]);
 
   const onSubmit = value => {
     editTodo({ ...value });
@@ -50,5 +50,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editTodo, fetchTodo, setCurrentTodo }
+  { editTodo, fetchTodos, setCurrentTodo }
 )(EditTodo);

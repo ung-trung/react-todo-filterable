@@ -1,10 +1,10 @@
-import axios from 'axios';
+import todo from '../../apis/todo';
 
 const setAuthToken = token => {
   if (token) {
-    axios.defaults.headers.common['x-auth-token'] = token;
+    todo.defaults.headers.common['x-auth-token'] = token;
   } else {
-    delete axios.defaults.headers.common['x-auth-token'];
+    delete todo.defaults.headers.common['x-auth-token'];
   }
 };
 

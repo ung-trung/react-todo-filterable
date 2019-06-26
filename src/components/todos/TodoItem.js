@@ -111,7 +111,10 @@ const TodoItem = ({
               Type: {renderPurposeTag()}
               <p>Description: {description}</p>
               <div className="buttons">
-                <Link className="button is-info" to={`/editTodo/${_id}`}>
+                <Link
+                  className="button is-info"
+                  to={`/editTodo/${_id}`}
+                  onClick={setCurrentTodo(_id)}>
                   <span className="icon">
                     <i className="fas fa-edit" />
                   </span>
