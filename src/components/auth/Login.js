@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import RenderTextInput from '../layouts/RenderTextInput';
-import { login, loadUser, clearError } from '../../actions';
-import { Link } from 'react-router-dom';
+// @ts-nocheck
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
+import RenderTextInput from '../layouts/RenderTextInput'
+import { login, loadUser, clearError } from '../../actions'
+import { Link } from 'react-router-dom'
+import Loader from 'react-loader-spinner'
 
 const Login = ({
   handleSubmit,
@@ -12,15 +14,36 @@ const Login = ({
   isAuthenticated,
   history,
   loginError,
-  clearError
+  clearError,
+  isLoading
 }) => {
   useEffect(() => {
-    loadUser();
-    clearError();
+    loadUser()
+    clearError()
     if (isAuthenticated) {
-      history.push('/');
+      history.push('/')
     }
-  }, [clearError, history, isAuthenticated, loadUser]);
+  }, [clearError, history, isAuthenticated, loadUser])
+
+  if (isLoading) {
+    return (
+      <section className="section">
+        <div className="columns is-mobile is-multiline is-centered">
+          <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+            <div style={{ textAlign: 'center' }}>
+              <Loader
+                type="Hearts"
+                color="hsl(348, 100%, 61%)"
+                height={240}
+                width={240}
+                visible={isLoading}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="section">
@@ -32,7 +55,7 @@ const Login = ({
           <hr className="is-divider" style={{ marginBlockStart: '0' }} />
           <form
             onSubmit={handleSubmit(value => {
-              login(value);
+              login(value)
             })}>
             <Field
               name="email"
@@ -72,36 +95,37 @@ const Login = ({
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
 const validate = ({ email, password }) => {
-  const errors = {};
+  const errors = {}
 
   if (typeof password === 'string') {
     if (password.length < 6) {
-      errors.password = 'Your password includes at least 6 characters!';
+      errors.password = 'Your password includes at least 6 characters!'
     }
   }
 
   if (!email) {
-    errors.email = 'You must secify your email!';
+    errors.email = 'You must secify your email!'
   }
 
   if (!password) {
-    errors.password = 'You must secify your password!';
+    errors.password = 'You must secify your password!'
   }
 
-  return errors;
-};
+  return errors
+}
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  loginError: state.auth.error
-});
+  loginError: state.auth.error,
+  isLoading: state.auth.isLoading
+})
 
 export default connect(
   mapStateToProps,
   { login, loadUser, clearError }
   // @ts-ignore
-)(reduxForm({ form: 'login', validate })(Login));
+)(reduxForm({ form: 'login', validate })(Login))

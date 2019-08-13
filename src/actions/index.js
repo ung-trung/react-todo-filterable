@@ -16,146 +16,150 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
-} from './types';
+  CLEAR_ERRORS,
+  USER_LOADING
+} from './types'
 
-import { isArray } from 'util';
+import { isArray } from 'util'
 
-import todo from '../apis/todo';
+import todo from '../apis/todo'
 
-import setAuthToken from '../components/utils/setAuthToken';
+import setAuthToken from '../components/utils/setAuthToken'
 
 export const fetchTodos = () => async dispatch => {
   try {
-    const res = await todo.get('/todos');
+    const res = await todo.get('/todos')
 
-    dispatch({ type: FETCH_TODOS, payload: res.data });
+    dispatch({ type: FETCH_TODOS, payload: res.data })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const fetchTodo = id => async dispatch => {
   try {
-    const res = await todo.get(`/todos/${id}`);
-    dispatch({ type: FETCH_TODO, payload: res.data });
+    const res = await todo.get(`/todos/${id}`)
+    dispatch({ type: FETCH_TODO, payload: res.data })
   } catch (error) {
-    console.log(error.response.data);
+    console.log(error.response.data)
   }
-};
+}
 
 export const addTodo = newTodo => async dispatch => {
   try {
-    const res = await todo.post('/todos', newTodo);
+    const res = await todo.post('/todos', newTodo)
 
-    dispatch({ type: ADD_TODO, payload: res.data });
+    dispatch({ type: ADD_TODO, payload: res.data })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const deleteTodo = id => async dispatch => {
   try {
-    await todo.delete(`/todos/${id}`);
-    dispatch({ type: DELETE_TODO, payload: id });
+    await todo.delete(`/todos/${id}`)
+    dispatch({ type: DELETE_TODO, payload: id })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const editTodo = newTodo => async dispatch => {
   try {
-    const res = await todo.patch(`/todos/${newTodo._id}`, newTodo);
-    dispatch({ type: EDIT_TODO, payload: res.data });
+    const res = await todo.patch(`/todos/${newTodo._id}`, newTodo)
+    dispatch({ type: EDIT_TODO, payload: res.data })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const setCurrentTodo = id => dispatch => {
-  dispatch({ type: SET_CURRENT_TODO, payload: id });
-};
+  dispatch({ type: SET_CURRENT_TODO, payload: id })
+}
 
 export const clearCurrentTodo = () => dispatch => {
-  dispatch({ type: CLEAR_CURRENT_TODO });
-};
+  dispatch({ type: CLEAR_CURRENT_TODO })
+}
 
 export const setTodoComplete = id => async (dispatch, getState) => {
   try {
     const currentSelectedTodo = getState().todos.todos.find(
       todo => todo._id === id
-    );
-    const completedTodo = { ...currentSelectedTodo, isCompleted: true };
+    )
+    const completedTodo = { ...currentSelectedTodo, isCompleted: true }
 
-    const res = await todo.patch(`/todos/${id}`, completedTodo);
+    const res = await todo.patch(`/todos/${id}`, completedTodo)
 
-    dispatch({ type: SET_TODO_COMPLETE, payload: res.data });
+    dispatch({ type: SET_TODO_COMPLETE, payload: res.data })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const unsetTodoComplete = id => async (dispatch, getState) => {
   try {
     const currentSelectedTodo = getState().todos.todos.find(
       todo => todo._id === id
-    );
+    )
 
-    const uncompletedTodo = { ...currentSelectedTodo, isCompleted: false };
+    const uncompletedTodo = { ...currentSelectedTodo, isCompleted: false }
 
-    const res = await todo.patch(`/todos/${id}`, uncompletedTodo);
+    const res = await todo.patch(`/todos/${id}`, uncompletedTodo)
 
-    dispatch({ type: UNSET_TODO_COMPLETE, payload: res.data });
+    dispatch({ type: UNSET_TODO_COMPLETE, payload: res.data })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 export const setCurrentSelectedDay = date => ({
   type: SET_CURRENT_SELECTE_DAY,
   payload: date
-});
+})
 
 // Load User
 export const loadUser = () => async dispatch => {
-  setAuthToken(localStorage.token);
+  dispatch({ type: USER_LOADING })
+  setAuthToken(localStorage.token)
   try {
-    const res = await todo.get('/auth');
-    dispatch({ type: USER_LOADED, payload: res.data });
+    const res = await todo.get('/auth')
+    dispatch({ type: USER_LOADED, payload: res.data })
   } catch (error) {
-    dispatch({ type: AUTH_ERROR });
+    dispatch({ type: AUTH_ERROR })
   }
-};
+}
 // Register User
 export const registerUser = formData => async dispatch => {
+  dispatch({ type: USER_LOADING })
   try {
-    const { data } = await todo.post('/users', formData);
+    const { data } = await todo.post('/users', formData)
 
-    dispatch({ type: REGISTER_SUCCESS, payload: data });
+    dispatch({ type: REGISTER_SUCCESS, payload: data })
   } catch (error) {
-    const { errors } = error.response.data;
+    const { errors } = error.response.data
 
     if (isArray(errors)) {
       errors.forEach(error =>
         dispatch({ type: REGISTER_FAIL, payload: error.msg })
-      );
+      )
     }
 
-    dispatch({ type: REGISTER_FAIL, payload: error.response.data.msg });
+    dispatch({ type: REGISTER_FAIL, payload: error.response.data.msg })
   }
-};
+}
 // Login User
 export const login = formData => async dispatch => {
+  dispatch({ type: USER_LOADING })
   try {
-    const { data } = await todo.post('/auth', formData);
-    dispatch({ type: LOGIN_SUCCESS, payload: data });
+    const { data } = await todo.post('/auth', formData)
+    dispatch({ type: LOGIN_SUCCESS, payload: data })
   } catch (err) {
-    dispatch({ type: LOGIN_FAIL, payload: err.response.data.msg });
+    dispatch({ type: LOGIN_FAIL, payload: err.response.data.msg })
   }
-};
+}
 
 // Logout
-export const logout = () => dispatch => dispatch({ type: LOGOUT });
+export const logout = () => dispatch => dispatch({ type: LOGOUT })
 
 // Clear Error
-export const clearError = () => dispatch => dispatch({ type: CLEAR_ERRORS });
+export const clearError = () => dispatch => dispatch({ type: CLEAR_ERRORS })
