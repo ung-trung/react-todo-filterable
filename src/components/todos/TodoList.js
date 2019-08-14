@@ -1,47 +1,47 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { fetchTodos } from '../../actions';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { fetchTodos } from '../../actions'
+import { Link } from 'react-router-dom'
 
-import TodoItem from './TodoItem';
-import TodoFilter from './TodoFilter';
+import TodoItem from './TodoItem'
+import TodoFilter from './TodoFilter'
 
-import ProgressBar from '../layouts/ProgressBar';
+import ProgressBar from '../layouts/ProgressBar'
 
-import formatDateString from '../utils/formatDateString';
-import today from '../utils/today';
-import getDisplayedTodos from '../utils/getDisplayedTodos';
+import formatDateString from '../utils/formatDateString'
+import today from '../utils/today'
+import getDisplayedTodos from '../utils/getDisplayedTodos'
 
 const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
-  const selectedDayString = formatDateString(new Date(selectedDay));
+  const selectedDayString = formatDateString(new Date(selectedDay))
 
   useEffect(() => {
-    fetchTodos();
-  }, [fetchTodos]);
+    fetchTodos()
+  }, [fetchTodos])
 
   const renderTodoList = () => {
     return sortedDisplayedTodos.map(todo => (
       <TodoItem todo={todo} key={todo._id} />
-    ));
-  };
+    ))
+  }
 
   const renderText = () => {
     //declare tomorrow date
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
 
     if (selectedDayString < formatDateString(today)) {
-      return 'You cannot add New Todo in the past.';
+      return 'You cannot add New Todo in the past.'
     }
     if (selectedDayString === formatDateString(today)) {
-      return 'Please add some todos for today.';
+      return 'Please add some todos for today.'
     }
     if (selectedDayString === formatDateString(tomorrow)) {
-      return `Please add some todos for tomorrow.`;
+      return `Please add some todos for tomorrow.`
     }
 
-    return `Please add some todos for the day ${selectedDayString}.`;
-  };
+    return `Please add some todos for the day ${selectedDayString}.`
+  }
 
   return (
     <div className="columns is-mobile is-multiline is-centered">
@@ -70,22 +70,29 @@ const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
           className={
             // @ts-ignore
             selectedDayString < formatDateString(today)
-              ? 'button is-pulled-right is-light is-loading'
+              ? 'button is-pulled-right is-light is-static'
               : 'button is-pulled-right is-danger'
           }
           to={
             // @ts-ignore
             selectedDayString < formatDateString(today) ? '/' : '/addTodo'
           }>
-          <span className="icon">
-            <i className="fas fa-plus" />
+          {selectedDayString > formatDateString(today) && (
+            <span className="icon">
+              <i className="fas fa-plus" />
+            </span>
+          )}
+
+          <span>
+            {selectedDayString < formatDateString(today)
+              ? 'Oooops'
+              : 'New Todo'}
           </span>
-          <span>New Todo</span>
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const mapStateToProps = state => ({
   selectedDay:
@@ -99,15 +106,15 @@ const mapStateToProps = state => ({
           state.form.daySort.values.selectedDay
         ).sort((a, b) => {
           if (a.isCompleted === b.isCompleted) {
-            return a.purpose > b.purpose ? -1 : 1;
+            return a.purpose > b.purpose ? -1 : 1
           } else {
-            return a.isCompleted ? 1 : -1;
+            return a.isCompleted ? 1 : -1
           }
         })
       : []
-});
+})
 
 export default connect(
   mapStateToProps,
   { fetchTodos }
-)(TodoList);
+)(TodoList)
