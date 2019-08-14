@@ -85,7 +85,7 @@ const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
 
           <span>
             {selectedDayString < formatDateString(today)
-              ? 'Oooops'
+              ? 'No cheating :)'
               : 'New Todo'}
           </span>
         </Link>
