@@ -1,4 +1,4 @@
-import formatDateString from './formatDateString';
-const now = new Date();
+import formatDateString from './formatDateString'
+const now = new Date()
 
-export default new Date(formatDateString(now));
+export default new Date(formatDateString(now))

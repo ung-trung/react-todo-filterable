@@ -14,4 +14,4 @@ export default [
   'My dreams were amazing because you were in them.',
   'Hugs and kisses on your way to wish you a great and happy day.',
   'You are the only thing that keeps me going every single day. I hope yours is a good one too.'
-];
+]

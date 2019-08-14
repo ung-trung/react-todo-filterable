@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import RenderTextInput from '../layouts/RenderTextInput';
-import { registerUser, loadUser, clearError } from '../../actions';
+import React, { useEffect } from 'react'
+import { Field, reduxForm } from 'redux-form'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import RenderTextInput from '../layouts/RenderTextInput'
+import { registerUser, loadUser, clearError } from '../../actions'
 
 const Register = ({
   handleSubmit,
@@ -15,12 +15,12 @@ const Register = ({
   clearError
 }) => {
   useEffect(() => {
-    loadUser();
-    clearError();
+    loadUser()
+    clearError()
     if (isAuthenticated) {
-      history.push('/');
+      history.push('/')
     }
-  }, [clearError, history, isAuthenticated, loadUser]);
+  }, [clearError, history, isAuthenticated, loadUser])
 
   return (
     <section className="section">
@@ -32,8 +32,8 @@ const Register = ({
           <hr className="is-divider" style={{ marginBlockStart: '0' }} />
           <form
             onSubmit={handleSubmit(value => {
-              const { firstName, lastName, username, email, password } = value;
-              registerUser({ firstName, lastName, username, email, password });
+              const { firstName, lastName, username, email, password } = value
+              registerUser({ firstName, lastName, username, email, password })
             })}>
             <Field
               name="firstName"
@@ -96,8 +96,8 @@ const Register = ({
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
 const validate = ({
   firstName,
@@ -107,43 +107,43 @@ const validate = ({
   password,
   rePassword
 }) => {
-  const errors = {};
+  const errors = {}
 
   if (password !== rePassword) {
-    errors.rePassword = 'Please check your password!';
+    errors.rePassword = 'Please check your password!'
   }
   if (typeof password === 'string') {
     if (password.length < 6) {
-      errors.password = 'Your password includes at least 6 characters!';
+      errors.password = 'Your password includes at least 6 characters!'
     }
   }
 
   if (!firstName) {
-    errors.firstName = 'You must enter your first name!';
+    errors.firstName = 'You must enter your first name!'
   }
 
   if (!lastName) {
-    errors.lastName = 'You must enter a your last name!';
+    errors.lastName = 'You must enter a your last name!'
   }
 
   if (!username) {
-    errors.username = 'You must specify a username!';
+    errors.username = 'You must specify a username!'
   }
 
   if (!email) {
-    errors.email = 'You must secify your email!';
+    errors.email = 'You must secify your email!'
   }
 
-  return errors;
-};
+  return errors
+}
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   registerError: state.auth.error
-});
+})
 
 export default connect(
   mapStateToProps,
   { registerUser, loadUser, clearError }
   // @ts-ignore
-)(reduxForm({ form: 'login', validate })(Register));
+)(reduxForm({ form: 'login', validate })(Register))

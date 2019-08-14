@@ -1,22 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import PrivateRoute from './components/routing/PrivateRoute';
-import { Provider } from 'react-redux';
-import store from './store';
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import PrivateRoute from './components/routing/PrivateRoute'
+import { Provider } from 'react-redux'
+import store from './store'
 
-import NavBar from './components/layouts/NavBar';
-import TodayNotification from './components/layouts/TodayNotification';
+import NavBar from './components/layouts/NavBar'
+import TodayNotification from './components/layouts/TodayNotification'
 
-import Home from './components/pages/Home';
-import About from './components/pages/About';
-import AddTodo from './components/pages/AddTodo';
-import EditTodo from './components/pages/EditTodo';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
+import Home from './components/pages/Home'
+import About from './components/pages/About'
+import AddTodo from './components/pages/AddTodo'
+import EditTodo from './components/pages/EditTodo'
+import Register from './components/auth/Register'
+import Login from './components/auth/Login'
 
-import setAuthToken from './components/utils/setAuthToken';
+import setAuthToken from './components/utils/setAuthToken'
 
-setAuthToken(localStorage.token);
+setAuthToken(localStorage.token)
 
 function App() {
   return (
@@ -36,7 +36,7 @@ function App() {
 
       <TodayNotification />
     </Provider>
-  );
+  )
 }
 
-export default App;
+export default App

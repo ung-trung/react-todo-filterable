@@ -1,5 +1,5 @@
-import React from 'react';
-import RenderError from './RenderError';
+import React from 'react'
+import RenderError from './RenderError'
 
 const RenderInput = ({ input, label, meta, placeholder, type }) => {
   return (
@@ -18,7 +18,7 @@ const RenderInput = ({ input, label, meta, placeholder, type }) => {
       </div>
       {RenderError(meta)}
     </div>
-  );
-};
+  )
+}
 
-export default RenderInput;
+export default RenderInput

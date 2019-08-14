@@ -1,5 +1,5 @@
-import morningQuotes from './morningQuotes';
+import morningQuotes from './morningQuotes'
 
-const getQuotes = qutoes => qutoes[Math.floor(Math.random() * qutoes.length)];
+const getQuotes = qutoes => qutoes[Math.floor(Math.random() * qutoes.length)]
 
-export default getQuotes(morningQuotes).toString();
+export default getQuotes(morningQuotes).toString()

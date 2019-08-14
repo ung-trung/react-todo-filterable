@@ -1,6 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import {
   setCurrentTodo,
@@ -8,7 +8,7 @@ import {
   setTodoComplete,
   unsetTodoComplete,
   deleteTodo
-} from '../../actions';
+} from '../../actions'
 
 const TodoItem = ({
   todo,
@@ -19,27 +19,27 @@ const TodoItem = ({
   unsetTodoComplete,
   deleteTodo
 }) => {
-  const { header, description, _id, isCompleted, purpose } = todo;
+  const { header, description, _id, isCompleted, purpose } = todo
 
   const isExpand = () => {
     if (currentTodo) {
       if (currentTodo._id === _id) {
-        return true;
-      } else return false;
-    } else return false;
-  };
+        return true
+      } else return false
+    } else return false
+  }
 
   const renderDownArrow = () => (
     <span className="icon">
       <i className="fas fa-angle-down" />
     </span>
-  );
+  )
 
   const renderUpArrow = () => (
     <span className="icon">
       <i className="fas fa-angle-up" />
     </span>
-  );
+  )
 
   const renderCheckbox = () => {
     if (isCompleted) {
@@ -47,25 +47,25 @@ const TodoItem = ({
         <span className="icon has-text-grey-light">
           <i className="far fa-check-square" />
         </span>
-      );
+      )
     } else {
       return (
         <span className="icon">
           <i className="far fa-square" />
         </span>
-      );
+      )
     }
-  };
+  }
 
   const renderPurposeTag = () => {
     if (purpose === 'Work') {
-      return <span className="tag is-danger">{purpose}</span>;
+      return <span className="tag is-danger">{purpose}</span>
     }
     if (purpose === 'Family') {
-      return <span className="tag is-primary">{purpose}</span>;
+      return <span className="tag is-primary">{purpose}</span>
     }
-    return <span className="tag is-warning">{purpose}</span>;
-  };
+    return <span className="tag is-warning">{purpose}</span>
+  }
 
   return (
     <div className="card">
@@ -77,8 +77,8 @@ const TodoItem = ({
             isCompleted
               ? () => unsetTodoComplete(_id)
               : () => {
-                  clearCurrentTodo();
-                  setTodoComplete(_id);
+                  clearCurrentTodo()
+                  setTodoComplete(_id)
                 }
           }>
           {renderCheckbox()}
@@ -135,12 +135,12 @@ const TodoItem = ({
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
 const mapStateToProps = state => ({
   currentTodo: state.todos.currentTodo
-});
+})
 
 export default connect(
   mapStateToProps,
@@ -151,4 +151,4 @@ export default connect(
     unsetTodoComplete,
     deleteTodo
   }
-)(TodoItem);
+)(TodoItem)

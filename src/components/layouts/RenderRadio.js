@@ -1,5 +1,5 @@
-import React from 'react';
-import RenderError from '../layouts/RenderError';
+import React from 'react'
+import RenderError from '../layouts/RenderError'
 
 const RenderRadio = ({ input, meta, type }) => {
   return (
@@ -10,7 +10,7 @@ const RenderRadio = ({ input, meta, type }) => {
       </label>
       {RenderError(meta)}
     </>
-  );
-};
+  )
+}
 
-export default RenderRadio;
+export default RenderRadio

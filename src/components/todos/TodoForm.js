@@ -1,33 +1,33 @@
-import React from 'react';
+import React from 'react'
 
-import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form'
+import { Link } from 'react-router-dom'
 
-import DateInput from '../layouts/DateInput';
-import RenderTextInput from '../layouts/RenderTextInput';
-import RenderRadio from '../layouts/RenderRadio';
+import DateInput from '../layouts/DateInput'
+import RenderTextInput from '../layouts/RenderTextInput'
+import RenderRadio from '../layouts/RenderRadio'
 
 const validate = ({ header, description, createDate, purpose }) => {
-  const errors = {};
+  const errors = {}
 
   if (!header) {
-    errors.header = 'You must enter a title';
+    errors.header = 'You must enter a title'
   }
 
   if (!description) {
-    errors.description = 'You must enter a description';
+    errors.description = 'You must enter a description'
   }
 
   if (!purpose) {
-    errors.purpose = 'You must specify your purpose';
+    errors.purpose = 'You must specify your purpose'
   }
 
   if (!createDate) {
-    errors.createDate = 'You must pick a date';
+    errors.createDate = 'You must pick a date'
   }
 
-  return errors;
-};
+  return errors
+}
 
 const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
   return (
@@ -85,11 +85,11 @@ const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
         </div>
       </div>
     </form>
-  );
-};
+  )
+}
 
 export default reduxForm({
   form: 'todoForm',
   validate
   // @ts-ignore
-})(TodoForm);
+})(TodoForm)

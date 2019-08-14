@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { logout } from '../../actions';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { logout } from '../../actions'
 
 const NavBar = ({ isAuthenticated, logout }) => {
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState('')
   const burgerClick = () =>
-    active === '' ? setActive('is-active') : setActive('');
+    active === '' ? setActive('is-active') : setActive('')
 
   return (
     <nav className="navbar is-danger is-fixed-top">
@@ -45,8 +45,8 @@ const NavBar = ({ isAuthenticated, logout }) => {
                 <div
                   className="navbar-item is-tab"
                   onClick={() => {
-                    burgerClick();
-                    logout();
+                    burgerClick()
+                    logout()
                   }}
                   style={{ cursor: 'pointer' }}>
                   Logout
@@ -72,14 +72,14 @@ const NavBar = ({ isAuthenticated, logout }) => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
-});
+})
 
 export default connect(
   mapStateToProps,
   { logout }
-)(NavBar);
+)(NavBar)
