@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import RenderError from './RenderError';
+import React, { Component } from 'react'
+import RenderError from './RenderError'
+
+// I need to use class component here because react-day-picker use this components with ref
 
 export class RenderDateInput extends Component {
   render() {
@@ -18,8 +20,8 @@ export class RenderDateInput extends Component {
         </div>
         {RenderError(this.props.meta)}
       </div>
-    );
+    )
   }
 }
 
-export default RenderDateInput;
+export default RenderDateInput

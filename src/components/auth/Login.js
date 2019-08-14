@@ -27,21 +27,15 @@ const Login = ({
 
   if (isLoading) {
     return (
-      <section className="section">
-        <div className="columns is-mobile is-multiline is-centered">
-          <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
-            <div style={{ textAlign: 'center' }}>
-              <Loader
-                type="Hearts"
-                color="hsl(348, 100%, 61%)"
-                height={240}
-                width={240}
-                visible={isLoading}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <div style={{ textAlign: 'center' }}>
+        <Loader
+          type="Hearts"
+          color="hsl(348, 100%, 61%)"
+          height={240}
+          width={240}
+          visible={isLoading}
+        />
+      </div>
     )
   }
 
