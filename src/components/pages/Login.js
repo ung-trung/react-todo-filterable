@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { loadUser, clearError } from '../../actions'
@@ -13,6 +13,11 @@ const Login = ({
   isLoading,
   location
 }) => {
+  useEffect(() => {
+    loadUser()
+    clearError()
+  }, [clearError, loadUser])
+
   if (isAuthenticated) {
     loadUser()
     clearError()

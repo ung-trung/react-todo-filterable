@@ -2,24 +2,19 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { loadUser, clearError } from '../../actions'
-
+import { Redirect } from 'react-router-dom'
 import RegisterForm from '../auth/RegisterForm'
 import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
 
-const Register = ({
-  loadUser,
-  isAuthenticated,
-  history,
-  clearError,
-  isLoading
-}) => {
+const Register = ({ loadUser, isAuthenticated, clearError, isLoading }) => {
   useEffect(() => {
     loadUser()
     clearError()
-    if (isAuthenticated) {
-      history.push('/')
-    }
-  }, [clearError, history, isAuthenticated, loadUser])
+  }, [clearError, loadUser])
+
+  if (isAuthenticated) {
+    return <Redirect to={{ pathname: '/' }} />
+  }
 
   if (isLoading) {
     return <BigHeartLoader />
