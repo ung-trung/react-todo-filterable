@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { loadUser, clearError } from '../../actions'
 
 import RegisterForm from '../auth/RegisterForm'
-import BigHeartLoader from '../layouts/Loaders.js/BigHeartLoader'
+import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
 
 const Register = ({
   loadUser,

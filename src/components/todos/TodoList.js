@@ -12,7 +12,7 @@ import formatDateString from '../utils/formatDateString'
 import today from '../utils/today'
 
 import getDisplayedTodos from '../utils/getDisplayedTodos'
-import SmallHeartLoader from '../layouts/Loaders.js/SmallHeartLoader'
+import SmallHeartLoader from '../layouts/Loaders/SmallHeartLoader'
 
 const TodoList = ({
   selectedDay,

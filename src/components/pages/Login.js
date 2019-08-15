@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { loadUser, clearError } from '../../actions'
 import LoginForm from '../auth/LoginForm'
-import BigHeartLoader from '../layouts/Loaders.js/BigHeartLoader'
+import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
 
 const Login = ({
   loadUser,
