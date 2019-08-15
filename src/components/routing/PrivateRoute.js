@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { loadUser } from '../../actions'
+
 import { connect } from 'react-redux'
 
 const PrivateRoute = ({
@@ -9,15 +9,17 @@ const PrivateRoute = ({
   component: Component,
   ...rest
 }) => {
-  useEffect(() => {
-    loadUser()
-  }, [loadUser])
-
   return (
     <Route
       {...rest}
       render={props =>
-        !isAuthenticated ? <Redirect to="/login" /> : <Component {...props} />
+        !isAuthenticated ? (
+          <Redirect
+            to={{ pathname: '/login', state: { from: props.location } }}
+          />
+        ) : (
+          <Component {...props} />
+        )
       }
     />
   )
@@ -27,7 +29,4 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 })
 
-export default connect(
-  mapStateToProps,
-  { loadUser }
-)(PrivateRoute)
+export default connect(mapStateToProps)(PrivateRoute)

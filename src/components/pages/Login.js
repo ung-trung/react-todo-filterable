@@ -1,7 +1,7 @@
 // @ts-nocheck
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-
+import { Redirect } from 'react-router-dom'
 import { loadUser, clearError } from '../../actions'
 import LoginForm from '../auth/LoginForm'
 import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
@@ -9,17 +9,16 @@ import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
 const Login = ({
   loadUser,
   isAuthenticated,
-  history,
   clearError,
-  isLoading
+  isLoading,
+  location
 }) => {
-  useEffect(() => {
+  if (isAuthenticated) {
     loadUser()
     clearError()
-    if (isAuthenticated) {
-      history.push('/')
-    }
-  }, [clearError, history, isAuthenticated, loadUser])
+    const { from } = location.state || { from: { pathname: '/' } }
+    return <Redirect to={from} />
+  }
 
   if (isLoading) {
     return (
