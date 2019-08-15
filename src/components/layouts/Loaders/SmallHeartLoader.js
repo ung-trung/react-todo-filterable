@@ -7,7 +7,7 @@ const SmallHeartLoader = () => {
       <Loader
         type="Hearts"
         color="hsl(348, 100%, 61%)"
-        height={20}
+        height={24}
         width={240}
       />
     </div>

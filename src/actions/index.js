@@ -4,7 +4,9 @@ import {
   DELETE_TODO,
   EDIT_TODO,
   SET_CURRENT_TODO,
+  SET_CLICKED_TODO,
   CLEAR_CURRENT_TODO,
+  CLEAR_CLICKED_TODO,
   SET_TODO_COMPLETE,
   UNSET_TODO_COMPLETE,
   SET_CURRENT_SELECTE_DAY,
@@ -97,6 +99,14 @@ export const setCurrentTodo = id => dispatch => {
 
 export const clearCurrentTodo = () => dispatch => {
   dispatch({ type: CLEAR_CURRENT_TODO })
+}
+
+export const setClickedTodo = id => dispatch => {
+  dispatch({ type: SET_CLICKED_TODO, payload: id })
+}
+
+export const clearClickedTodo = () => dispatch => {
+  dispatch({ type: CLEAR_CLICKED_TODO })
 }
 
 export const setTodoComplete = id => async (dispatch, getState) => {

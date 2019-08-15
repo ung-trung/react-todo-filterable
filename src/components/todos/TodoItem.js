@@ -1,13 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import WatchLoader from '../layouts/Loaders/WatchLoader'
 
 import {
   setCurrentTodo,
   clearCurrentTodo,
   setTodoComplete,
   unsetTodoComplete,
-  deleteTodo
+  deleteTodo,
+  setClickedTodo,
+  clearClickedTodo
 } from '../../actions'
 
 const TodoItem = ({
@@ -17,7 +20,11 @@ const TodoItem = ({
   clearCurrentTodo,
   setTodoComplete,
   unsetTodoComplete,
-  deleteTodo
+  deleteTodo,
+  setClickedTodo,
+  clearClickedTodo,
+  isSingleTodoLoading,
+  clickedTodo
 }) => {
   const { header, description, _id, isCompleted, purpose } = todo
 
@@ -67,6 +74,16 @@ const TodoItem = ({
     return <span className="tag is-warning">{purpose}</span>
   }
 
+  if (isSingleTodoLoading && clickedTodo._id === _id) {
+    return (
+      <div className="card">
+        <div className="card-content">
+          <WatchLoader />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="card">
       <header className="card-header">
@@ -75,10 +92,14 @@ const TodoItem = ({
           style={{ cursor: 'pointer' }}
           onClick={
             isCompleted
-              ? () => unsetTodoComplete(_id)
+              ? () => {
+                  unsetTodoComplete(_id)
+                  setClickedTodo(_id)
+                }
               : () => {
                   clearCurrentTodo()
                   setTodoComplete(_id)
+                  setClickedTodo(_id)
                 }
           }>
           {renderCheckbox()}
@@ -139,7 +160,9 @@ const TodoItem = ({
 }
 
 const mapStateToProps = state => ({
-  currentTodo: state.todos.currentTodo
+  currentTodo: state.todos.currentTodo,
+  clickedTodo: state.todos.clickedTodo,
+  isSingleTodoLoading: state.todos.isSingleTodoLoading
 })
 
 export default connect(
@@ -149,6 +172,8 @@ export default connect(
     clearCurrentTodo,
     setTodoComplete,
     unsetTodoComplete,
-    deleteTodo
+    deleteTodo,
+    setClickedTodo,
+    clearClickedTodo
   }
 )(TodoItem)

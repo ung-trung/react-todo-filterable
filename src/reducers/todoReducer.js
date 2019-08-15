@@ -7,6 +7,8 @@ import {
   EDIT_TODO_FAIL,
   SET_CURRENT_TODO,
   CLEAR_CURRENT_TODO,
+  SET_CLICKED_TODO,
+  CLEAR_CLICKED_TODO,
   SET_TODO_COMPLETE,
   UNSET_TODO_COMPLETE,
   TODOS_LOADING,
@@ -23,13 +25,19 @@ const INITIAL_STATE = {
   currentTodo: null,
   isLoading: false,
   isSingleTodoLoading: false,
-  error: null
+  error: null,
+  clickedTodo: null
 }
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FETCH_TODOS:
-      return { ...state, todos: [...action.payload], isLoading: false }
+      return {
+        ...state,
+        todos: [...action.payload],
+        isLoading: false,
+        isSingleTodoLoading: false
+      }
     // case FETCH_TODO:
     //   return {
     //     ...state,
@@ -46,13 +54,15 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         todos: [...state.todos, action.payload],
-        isLoading: false
+        isLoading: false,
+        isSingleTodoLoading: false
       }
     case DELETE_TODO:
       return {
         ...state,
         todos: state.todos.filter(todo => todo._id !== action.payload),
-        isLoading: false
+        isLoading: false,
+        isSingleTodoLoading: false
       }
     case SET_CURRENT_TODO:
       return {
@@ -64,6 +74,17 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         currentTodo: null
       }
+
+    case SET_CLICKED_TODO:
+      return {
+        ...state,
+        clickedTodo: state.todos.find(todo => todo._id === action.payload)
+      }
+    case CLEAR_CLICKED_TODO:
+      return {
+        ...state,
+        clickedTodo: null
+      }
     case SET_TODO_COMPLETE:
     case UNSET_TODO_COMPLETE:
     case EDIT_TODO:
@@ -72,7 +93,8 @@ export default (state = INITIAL_STATE, action) => {
         todos: state.todos.map(todo =>
           todo._id === action.payload._id ? action.payload : todo
         ),
-        isLoading: false
+        isLoading: false,
+        isSingleTodoLoading: false
       }
     case FETCH_TODOS_FAIL:
     case DELETE_TODO_FAIL:
