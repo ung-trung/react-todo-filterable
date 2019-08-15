@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { loadUser, clearError } from '../../actions'
 
 import RegisterForm from '../auth/RegisterForm'
-import Loader from 'react-loader-spinner'
+import BigHeartLoader from '../layouts/Loaders.js/BigHeartLoader'
 
 const Register = ({
   loadUser,
@@ -22,17 +22,7 @@ const Register = ({
   }, [clearError, history, isAuthenticated, loadUser])
 
   if (isLoading) {
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <Loader
-          type="Hearts"
-          color="hsl(348, 100%, 61%)"
-          height={240}
-          width={240}
-          visible={isLoading}
-        />
-      </div>
-    )
+    return <BigHeartLoader />
   }
 
   return (

@@ -1,6 +1,5 @@
 import {
   FETCH_TODOS,
-  FETCH_TODO,
   ADD_TODO,
   DELETE_TODO,
   EDIT_TODO,
@@ -9,6 +8,14 @@ import {
   SET_TODO_COMPLETE,
   UNSET_TODO_COMPLETE,
   SET_CURRENT_SELECTE_DAY,
+  TODOS_LOADING,
+  SINGLE_TODO_LOADING,
+  FETCH_TODOS_FAIL,
+  ADD_TODO_FAIL,
+  DELETE_TODO_FAIL,
+  EDIT_TODO_FAIL,
+  SET_TODO_COMPLETE_FAIL,
+  UNSET_TODO_COMPLETE_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_LOADED,
@@ -27,49 +34,60 @@ import todo from '../apis/todo'
 import setAuthToken from '../components/utils/setAuthToken'
 
 export const fetchTodos = () => async dispatch => {
+  dispatch({ type: TODOS_LOADING })
   try {
     const res = await todo.get('/todos')
 
     dispatch({ type: FETCH_TODOS, payload: res.data })
   } catch (error) {
-    console.log(error)
+    dispatch({ type: FETCH_TODOS_FAIL, payload: error.message })
   }
 }
 
-export const fetchTodo = id => async dispatch => {
-  try {
-    const res = await todo.get(`/todos/${id}`)
-    dispatch({ type: FETCH_TODO, payload: res.data })
-  } catch (error) {
-    console.log(error.response.data)
-  }
-}
+// export const fetchTodo = id => async dispatch => {
+//   dispatch({ type: TODO_LOADING })
+//   try {
+//     const res = await todo.get(`/todos/${id}`)
+//     dispatch({ type: FETCH_TODO, payload: res.data })
+//   } catch (error) {
+//     console.log(error.response.data)
+//   }
+// }
 
 export const addTodo = newTodo => async dispatch => {
+  dispatch({
+    type: SINGLE_TODO_LOADING
+  })
   try {
     const res = await todo.post('/todos', newTodo)
 
     dispatch({ type: ADD_TODO, payload: res.data })
   } catch (error) {
-    console.log(error)
+    dispatch({ type: ADD_TODO_FAIL, payload: error.message })
   }
 }
 
 export const deleteTodo = id => async dispatch => {
+  dispatch({
+    type: SINGLE_TODO_LOADING
+  })
   try {
     await todo.delete(`/todos/${id}`)
     dispatch({ type: DELETE_TODO, payload: id })
   } catch (error) {
-    console.log(error)
+    dispatch({ type: DELETE_TODO_FAIL, payload: error.message })
   }
 }
 
 export const editTodo = newTodo => async dispatch => {
+  dispatch({
+    type: SINGLE_TODO_LOADING
+  })
   try {
     const res = await todo.patch(`/todos/${newTodo._id}`, newTodo)
     dispatch({ type: EDIT_TODO, payload: res.data })
   } catch (error) {
-    console.log(error)
+    dispatch({ type: EDIT_TODO_FAIL, payload: error.message })
   }
 }
 
@@ -82,6 +100,9 @@ export const clearCurrentTodo = () => dispatch => {
 }
 
 export const setTodoComplete = id => async (dispatch, getState) => {
+  dispatch({
+    type: SINGLE_TODO_LOADING
+  })
   try {
     const currentSelectedTodo = getState().todos.todos.find(
       todo => todo._id === id
@@ -92,11 +113,14 @@ export const setTodoComplete = id => async (dispatch, getState) => {
 
     dispatch({ type: SET_TODO_COMPLETE, payload: res.data })
   } catch (error) {
-    console.log(error)
+    dispatch({ type: SET_TODO_COMPLETE_FAIL, payload: error.message })
   }
 }
 
 export const unsetTodoComplete = id => async (dispatch, getState) => {
+  dispatch({
+    type: SINGLE_TODO_LOADING
+  })
   try {
     const currentSelectedTodo = getState().todos.todos.find(
       todo => todo._id === id
@@ -108,7 +132,7 @@ export const unsetTodoComplete = id => async (dispatch, getState) => {
 
     dispatch({ type: UNSET_TODO_COMPLETE, payload: res.data })
   } catch (error) {
-    console.log(error)
+    dispatch({ type: UNSET_TODO_COMPLETE_FAIL, payload: error.message })
   }
 }
 

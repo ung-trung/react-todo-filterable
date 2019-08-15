@@ -12,7 +12,6 @@ import About from './components/pages/About'
 import AddTodo from './components/pages/AddTodo'
 import EditTodo from './components/pages/EditTodo'
 import Register from './components/pages/Register'
-
 import Login from './components/pages/Login'
 
 import setAuthToken from './components/utils/setAuthToken'

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { loadUser, clearError } from '../../actions'
 import LoginForm from '../auth/LoginForm'
-import Loader from 'react-loader-spinner'
+import BigHeartLoader from '../layouts/Loaders.js/BigHeartLoader'
 
 const Login = ({
   loadUser,
@@ -24,13 +24,7 @@ const Login = ({
   if (isLoading) {
     return (
       <div style={{ textAlign: 'center' }}>
-        <Loader
-          type="Hearts"
-          color="hsl(348, 100%, 61%)"
-          height={240}
-          width={240}
-          visible={isLoading}
-        />
+        <BigHeartLoader />
       </div>
     )
   }

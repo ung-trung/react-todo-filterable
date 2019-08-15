@@ -12,8 +12,14 @@ import formatDateString from '../utils/formatDateString'
 import today from '../utils/today'
 
 import getDisplayedTodos from '../utils/getDisplayedTodos'
+import SmallHeartLoader from '../layouts/Loaders.js/SmallHeartLoader'
 
-const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
+const TodoList = ({
+  selectedDay,
+  sortedDisplayedTodos,
+  fetchTodos,
+  isLoading
+}) => {
   const selectedDayString = formatDateString(new Date(selectedDay))
 
   useEffect(() => {
@@ -66,7 +72,13 @@ const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
             overflowY: 'auto',
             marginBottom: '15px'
           }}>
-          {sortedDisplayedTodos.length > 0 ? renderTodoList() : renderText()}
+          {isLoading ? (
+            <SmallHeartLoader />
+          ) : sortedDisplayedTodos.length > 0 ? (
+            renderTodoList()
+          ) : (
+            renderText()
+          )}
         </div>
         <Link
           className={
@@ -93,6 +105,7 @@ const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
 }
 
 const mapStateToProps = state => ({
+  isLoading: state.todos.isLoading,
   selectedDay:
     state.form.daySort !== undefined
       ? state.form.daySort.values.selectedDay
