@@ -57,7 +57,8 @@ const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
           style={{ marginBlockStart: '2px', marginBlockEnd: '12px' }}
         />
         <ProgressBar />
-        <div
+
+        <div //handle too many todos via putting it in a scrollable div
           style={{
             maxHeight: '350px',
             scrollbarWidth: 'none',
@@ -69,15 +70,11 @@ const TodoList = ({ selectedDay, sortedDisplayedTodos, fetchTodos }) => {
         </div>
         <Link
           className={
-            // @ts-ignore
             selectedDayString < formatDateString(today)
               ? 'button is-pulled-right is-light is-static'
               : 'button is-pulled-right is-danger'
           }
-          to={
-            // @ts-ignore
-            selectedDayString < formatDateString(today) ? '/' : '/addTodo'
-          }>
+          to={selectedDayString < formatDateString(today) ? '/' : '/addTodo'}>
           {selectedDayString > formatDateString(today) && (
             <span className="icon">
               <i className="fas fa-plus" />
