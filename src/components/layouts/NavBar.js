@@ -14,10 +14,9 @@ const NavBar = ({ isAuthenticated, logout }) => {
       <div className="container">
         <div className="navbar-brand">
           <a className="navbar-item is-tab" href="/">
-            <span className="icon is-medium">
-              <i className="fas fa-list fa-lg" />
+            <span style={{ fontFamily: 'Leckerli One', fontSize: '20px' }}>
+              Trinh's Todo
             </span>
-            <span>Trinh's Todo</span>
           </a>
 
           <a className={`navbar-burger burger ${active}`} onClick={burgerClick}>
