@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import WatchLoader from '../layouts/Loaders/WatchLoader'
-import { useSpring, animated } from 'react-spring'
+import { useSpring, animated, config } from 'react-spring'
 
 import {
   setCurrentTodo,
@@ -13,6 +13,12 @@ import {
   setClickedTodo,
   clearClickedTodo
 } from '../../actions'
+import toUpperCaseFirstLetter from '../utils/toUpperCaseFirstLetter'
+
+const Bubblegum = '#FA6775'
+const Mist = '#ACD0C0'
+const Ivory = '#2988A9'
+const Ice = '#F7EFE2'
 
 const TodoItem = ({
   todo,
@@ -37,8 +43,9 @@ const TodoItem = ({
     } else return false
   }
   const props = useSpring({
-    from: { opacity: 0 },
-    to: { opacity: isExpand() ? 1 : 0 }
+    from: { opacity: 0, marginTop: -60 },
+    to: { opacity: isExpand() ? 1 : 0, marginTop: 0 },
+    config: { ...config.wobbly, duration: 350 }
   })
 
   const renderDownArrow = () => (
@@ -69,7 +76,18 @@ const TodoItem = ({
     }
   }
 
-  const renderItemColor = () => {
+  const renderItemBGColor = () => {
+    switch (purpose) {
+      case 'Work':
+        return Bubblegum
+      case 'Family':
+        return Ivory
+      default:
+        return Mist
+    }
+  }
+
+  const renderItemTagColor = () => {
     switch (purpose) {
       case 'Work':
         return 'is-danger'
@@ -81,15 +99,22 @@ const TodoItem = ({
   }
 
   const renderPurposeTag = () => (
-    <span className={`tag ${renderItemColor()}`}>{purpose}</span>
+    <span className={`tag ${renderItemTagColor()}`}>{purpose}</span>
   )
 
-  if (isSingleTodoLoading && clickedTodo._id === _id) {
+  const isLoading = isSingleTodoLoading && clickedTodo._id === _id
+
+  if (isLoading) {
     return (
-      <div className="card">
-        <div className="card-content">
-          <WatchLoader />
-        </div>
+      <div
+        style={{
+          minHeight: 48,
+          marginBottom: 6,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+        <WatchLoader />
       </div>
     )
   }
@@ -97,8 +122,14 @@ const TodoItem = ({
   return (
     <div
       className="card"
-      style={{ marginTop: 1, marginBottom: 1, marginLeft: 1, marginRight: 1 }}>
-      <header className="card-header">
+      style={{
+        marginBottom: 6,
+        marginLeft: 1,
+        marginRight: 1
+      }}>
+      <header
+        className="card-header"
+        style={{ backgroundColor: renderItemBGColor() }}>
         <div
           className="card-header-title"
           style={{ cursor: 'pointer' }}
@@ -119,27 +150,25 @@ const TodoItem = ({
             <span
               className="has-text-grey-light"
               style={{ textDecoration: 'line-through' }}>
-              {header}
+              {toUpperCaseFirstLetter(header)}
             </span>
           ) : (
-            header
+            <div className="">{toUpperCaseFirstLetter(header)}</div>
           )}
         </div>
 
-        <div
-          className="card-header-icon"
-          onClick={isExpand() ? clearCurrentTodo : () => setCurrentTodo(_id)}>
-          {isCompleted
-            ? null
-            : isExpand()
-            ? renderUpArrow()
-            : renderDownArrow()}
-        </div>
+        {!isCompleted && (
+          <div
+            className="card-header-icon"
+            onClick={isExpand() ? clearCurrentTodo : () => setCurrentTodo(_id)}>
+            {isExpand() ? renderUpArrow() : renderDownArrow()}
+          </div>
+        )}
       </header>
 
       {isExpand() && (
         <animated.div style={props}>
-          <div className="card-content">
+          <div className="card-content" style={{ backgroundColor: Ice }}>
             <div className="content">
               Type: {renderPurposeTag()}
               <p>Description: {description}</p>

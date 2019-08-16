@@ -12,9 +12,9 @@ import formatDateString from '../utils/formatDateString'
 import today from '../utils/today'
 
 import getDisplayedTodos from '../utils/getDisplayedTodos'
-import SmallHeartLoader from '../layouts/Loaders/SmallHeartLoader'
+import WatchLoader from '../layouts/Loaders/WatchLoader'
 
-import { useTrail, animated, config } from 'react-spring'
+import { useSpring, animated, config } from 'react-spring'
 
 const TodoList = ({
   selectedDay,
@@ -28,28 +28,43 @@ const TodoList = ({
     fetchTodos()
   }, [fetchTodos])
 
-  const trail = useTrail(sortedDisplayedTodos.length, {
-    from: {
-      marginLeft: -20,
-      marginTop: -20,
-      opacity: 0,
-      transform: 'translate3d(0,-40px,0)'
-    },
-    to: {
-      marginLeft: 0,
-      marginTop: 0,
-      opacity: 1,
-      transform: 'translate3d(0,0px,0)'
-    },
-    config: config.wobbly
+  const props = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    config: { config: config.wobbly, duration: 350 }
   })
-
-  const renderTrailedTodoList = () =>
-    trail.map((props, index) => (
-      <animated.div key={sortedDisplayedTodos[index]._id} style={props}>
-        <TodoItem todo={sortedDisplayedTodos[index]} />
+  const renderSpringedTodo = () => {
+    return (
+      <animated.div style={props}>
+        {sortedDisplayedTodos.map(todo => (
+          <TodoItem todo={todo} key={todo._id} />
+        ))}
       </animated.div>
-    ))
+    )
+  }
+
+  // const trail = useTrail(sortedDisplayedTodos.length, {
+  //   from: {
+  //     marginLeft: -3,
+  //     marginTop: -20,
+  //     opacity: 0.5,
+  //     transform: 'translate3d(0,-40px,0)'
+  //   },
+  //   to: {
+  //     marginLeft: 0,
+  //     marginTop: 0,
+  //     opacity: 1,
+  //     transform: 'translate3d(0,0px,0)'
+  //   },
+  //   config: config.stiff
+  // })
+
+  // const renderTrailedTodoList = () =>
+  //   trail.map((props, index) => (
+  //     <animated.div key={sortedDisplayedTodos[index]._id} style={props}>
+  //       <TodoItem todo={sortedDisplayedTodos[index]} />
+  //     </animated.div>
+  //   ))
 
   // const renderTodoList = () => {
   //   return sortedDisplayedTodos.map(todo => (
@@ -98,14 +113,15 @@ const TodoList = ({
             marginBottom: '15px'
           }}>
           {isLoading ? (
-            <SmallHeartLoader />
+            <WatchLoader />
           ) : sortedDisplayedTodos.length > 0 ? (
-            renderTrailedTodoList()
+            renderSpringedTodo()
           ) : (
             renderText()
           )}
         </div>
         <Link
+          style={{ marginBlockStart: 12 }}
           className={
             selectedDayString < formatDateString(today)
               ? 'button is-pulled-right is-light is-static'
