@@ -8,7 +8,7 @@ const RenderRadio = ({ input, meta, type }) => {
         <input type={type} className="radio" {...input} autoComplete="off" />
         {input.value}
       </label>
-      {RenderError(meta)}
+      {input.value === 'Leisure' && RenderError(meta)}
     </>
   )
 }
