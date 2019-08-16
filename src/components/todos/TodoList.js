@@ -119,6 +119,7 @@ const TodoList = ({
         ) : (
           renderText()
         )}
+
         {/* </div> */}
         <Link
           style={{ marginBlockStart: 12 }}
@@ -156,7 +157,13 @@ const mapStateToProps = state => ({
       ? getDisplayedTodos(
           state.todos.todos,
           state.form.daySort.values.selectedDay
-        )
+        ).sort((a, b) => {
+          if (a.isCompleted === b.isCompleted) {
+            return a.purpose > b.purpose ? -1 : 1
+          } else {
+            return a.isCompleted ? 1 : -1
+          }
+        })
       : []
 })
 
@@ -164,12 +171,3 @@ export default connect(
   mapStateToProps,
   { fetchTodos }
 )(TodoList)
-
-// sort mechanism
-// .sort((a, b) => {
-//   if (a.isCompleted === b.isCompleted) {
-//     return a.purpose > b.purpose ? -1 : 1
-//   } else {
-//     return a.isCompleted ? 1 : -1
-//   }
-// })

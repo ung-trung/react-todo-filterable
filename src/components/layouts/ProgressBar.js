@@ -17,14 +17,13 @@ const ProgressBar = ({ displayTodos }) => {
   }
 
   const props = useSpring({
-    to: { number: getProgress(displayTodos) },
+    number: getProgress(displayTodos),
     config: { tension: 180, friction: 16, precision: 0.01, velocity: 5 }
   })
 
   return (
     <animated.progress
       className="progress is-danger"
-      // @ts-ignore
       value={props.number}
       max="100"
     />
