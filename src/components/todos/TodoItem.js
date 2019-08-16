@@ -95,7 +95,9 @@ const TodoItem = ({
   }
 
   return (
-    <div className="card" style={{ opacity: 0.9 }}>
+    <div
+      className="card"
+      style={{ marginTop: 1, marginBottom: 1, marginLeft: 1, marginRight: 1 }}>
       <header className="card-header">
         <div
           className="card-header-title"
