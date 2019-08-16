@@ -59,7 +59,7 @@ const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
             name="purpose"
             type="radio"
             component={RenderRadio}
-            value="Family"
+            value="School"
           />
           <Field
             name="purpose"

@@ -86,10 +86,10 @@ const TodoItem = ({
     switch (purpose) {
       case 'Work':
         return Bubblegum
-      case 'Family':
-        return Ivory
-      default:
+      case 'School':
         return Mist
+      default:
+        return Ivory
     }
   }
 
@@ -97,7 +97,7 @@ const TodoItem = ({
     switch (purpose) {
       case 'Work':
         return 'is-danger'
-      case 'Family':
+      case 'School':
         return 'is-primary'
       default:
         return 'is-warning'
@@ -108,9 +108,14 @@ const TodoItem = ({
     <span className={`tag ${renderItemTagColor()}`}>{purpose}</span>
   )
 
-  const isLoading = isSingleTodoLoading && clickedTodo._id === _id
+  const isLoading = () => {
+    if (clickedTodo !== null) {
+      return isSingleTodoLoading && clickedTodo._id === _id
+    }
+    return false
+  }
 
-  if (isLoading) {
+  if (isLoading()) {
     return (
       <div
         style={{
@@ -144,7 +149,7 @@ const TodoItem = ({
         className="card-header"
         style={{
           backgroundColor: renderItemBGColor(),
-          opacity: isCompleted ? 0.5 : 1
+          opacity: isCompleted ? 0.47 : 1
         }}>
         <div
           className="card-header-title"

@@ -1,16 +1,25 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import TodoForm from '../todos/TodoForm';
+import React from 'react'
+import { connect } from 'react-redux'
+import TodoForm from '../todos/TodoForm'
 
-import { addTodo } from '../../actions';
-import formatDateString from '../utils/formatDateString';
-import today from '../utils/today';
+import { addTodo } from '../../actions'
+import formatDateString from '../utils/formatDateString'
+import today from '../utils/today'
+import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
 
-const AddTodo = ({ addTodo, initialValues, history }) => {
+const AddTodo = ({ addTodo, initialValues, history, isLoadingNewAdd }) => {
   const onSubmit = async value => {
-    await addTodo({ ...value, isCompleted: false });
-    history.push('/');
-  };
+    await addTodo({ ...value, isCompleted: false })
+    history.push('/')
+  }
+
+  if (isLoadingNewAdd) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <BigHeartLoader />
+      </div>
+    )
+  }
 
   return (
     <section className="section">
@@ -28,16 +37,17 @@ const AddTodo = ({ addTodo, initialValues, history }) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
 const mapStateToProps = state => ({
   initialValues: state.filter.currentSelected
     ? { createDate: formatDateString(state.filter.currentSelected) }
-    : { createDate: formatDateString(today) }
-});
+    : { createDate: formatDateString(today) },
+  isLoadingNewAdd: state.todos.isSingleTodoLoading
+})
 
 export default connect(
   mapStateToProps,
   { addTodo }
-)(AddTodo);
+)(AddTodo)

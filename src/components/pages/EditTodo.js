@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import TodoForm from '../todos/TodoForm';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import TodoForm from '../todos/TodoForm'
 
-import { editTodo, fetchTodos, setCurrentTodo } from '../../actions';
+import { editTodo, fetchTodos, setCurrentTodo } from '../../actions'
+import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
 
 const EditTodo = ({
   editTodo,
@@ -10,22 +11,31 @@ const EditTodo = ({
   setCurrentTodo,
   match,
   currentTodo,
-  history
+  history,
+  isLoadingNewEdit
 }) => {
   useEffect(() => {
     fetchTodos()
       .then(result => {
-        setCurrentTodo(match.params.id);
+        setCurrentTodo(match.params.id)
       })
       .catch(err => {
-        console.log(err);
-      });
-  }, [fetchTodos, match.params.id, setCurrentTodo]);
+        console.log(err)
+      })
+  }, [fetchTodos, match.params.id, setCurrentTodo])
 
   const onSubmit = async value => {
-    await editTodo({ ...value });
-    history.push('/');
-  };
+    await editTodo({ ...value })
+    history.push('/')
+  }
+
+  if (isLoadingNewEdit) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <BigHeartLoader />
+      </div>
+    )
+  }
 
   return (
     <section className="section">
@@ -43,14 +53,15 @@ const EditTodo = ({
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
 const mapStateToProps = state => ({
-  currentTodo: state.todos.currentTodo
-});
+  currentTodo: state.todos.currentTodo,
+  isLoadingNewEdit: state.todos.isSingleTodoLoading
+})
 
 export default connect(
   mapStateToProps,
   { editTodo, fetchTodos, setCurrentTodo }
-)(EditTodo);
+)(EditTodo)
