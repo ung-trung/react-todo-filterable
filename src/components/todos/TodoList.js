@@ -104,22 +104,22 @@ const TodoList = ({
         />
         <ProgressBar />
 
-        <div //handle too many todos via putting it in a scrollable div
+        {/* <div //handle too many todos via putting it in a scrollable div
           style={{
             maxHeight: '350px',
             scrollbarWidth: 'none',
             minWidth: '200px',
             overflowY: 'auto',
             marginBottom: '15px'
-          }}>
-          {isLoading ? (
-            <WatchLoader />
-          ) : sortedDisplayedTodos.length > 0 ? (
-            renderSpringedTodo()
-          ) : (
-            renderText()
-          )}
-        </div>
+          }}> */}
+        {isLoading ? (
+          <WatchLoader />
+        ) : sortedDisplayedTodos.length > 0 ? (
+          renderSpringedTodo()
+        ) : (
+          renderText()
+        )}
+        {/* </div> */}
         <Link
           style={{ marginBlockStart: 12 }}
           className={
@@ -156,13 +156,7 @@ const mapStateToProps = state => ({
       ? getDisplayedTodos(
           state.todos.todos,
           state.form.daySort.values.selectedDay
-        ).sort((a, b) => {
-          if (a.isCompleted === b.isCompleted) {
-            return a.purpose > b.purpose ? -1 : 1
-          } else {
-            return a.isCompleted ? 1 : -1
-          }
-        })
+        )
       : []
 })
 
@@ -170,3 +164,12 @@ export default connect(
   mapStateToProps,
   { fetchTodos }
 )(TodoList)
+
+// sort mechanism
+// .sort((a, b) => {
+//   if (a.isCompleted === b.isCompleted) {
+//     return a.purpose > b.purpose ? -1 : 1
+//   } else {
+//     return a.isCompleted ? 1 : -1
+//   }
+// })

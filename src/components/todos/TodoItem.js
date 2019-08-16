@@ -43,9 +43,15 @@ const TodoItem = ({
     } else return false
   }
   const props = useSpring({
-    from: { opacity: 0, marginTop: -60 },
-    to: { opacity: isExpand() ? 1 : 0, marginTop: 0 },
+    from: { opacity: 0 },
+    to: { opacity: isExpand() ? 1 : 0 },
     config: { ...config.wobbly, duration: 350 }
+  })
+
+  const { x } = useSpring({
+    from: { x: 1 },
+    x: isCompleted ? 1 : 0,
+    config: { duration: 400 }
   })
 
   const renderDownArrow = () => (
@@ -120,16 +126,26 @@ const TodoItem = ({
   }
 
   return (
-    <div
+    <animated.div
       className="card"
       style={{
         marginBottom: 6,
         marginLeft: 1,
-        marginRight: 1
+        marginRight: 1,
+
+        transform: x
+          .interpolate({
+            range: [0, 0.25, 0.65, 0.75, 1],
+            output: [1, 0.97, 1.1, 1.03, 1]
+          })
+          .interpolate(x => `scale(${x})`)
       }}>
       <header
         className="card-header"
-        style={{ backgroundColor: renderItemBGColor() }}>
+        style={{
+          backgroundColor: renderItemBGColor(),
+          opacity: isCompleted ? 0.5 : 1
+        }}>
         <div
           className="card-header-title"
           style={{ cursor: 'pointer' }}
@@ -196,7 +212,7 @@ const TodoItem = ({
           </div>
         </animated.div>
       )}
-    </div>
+    </animated.div>
   )
 }
 
