@@ -14,6 +14,8 @@ import today from '../utils/today'
 import getDisplayedTodos from '../utils/getDisplayedTodos'
 import SmallHeartLoader from '../layouts/Loaders/SmallHeartLoader'
 
+import { useTrail, animated, config } from 'react-spring'
+
 const TodoList = ({
   selectedDay,
   sortedDisplayedTodos,
@@ -26,11 +28,34 @@ const TodoList = ({
     fetchTodos()
   }, [fetchTodos])
 
-  const renderTodoList = () => {
-    return sortedDisplayedTodos.map(todo => (
-      <TodoItem todo={todo} key={todo._id} />
+  const trail = useTrail(sortedDisplayedTodos.length, {
+    from: {
+      marginLeft: -20,
+      marginTop: -20,
+      opacity: 0,
+      transform: 'translate3d(0,-40px,0)'
+    },
+    to: {
+      marginLeft: 0,
+      marginTop: 0,
+      opacity: 1,
+      transform: 'translate3d(0,0px,0)'
+    },
+    config: config.wobbly
+  })
+
+  const renderTrailedTodoList = () =>
+    trail.map((props, index) => (
+      <animated.div key={sortedDisplayedTodos[index]._id} style={props}>
+        <TodoItem todo={sortedDisplayedTodos[index]} />
+      </animated.div>
     ))
-  }
+
+  // const renderTodoList = () => {
+  //   return sortedDisplayedTodos.map(todo => (
+  //     <TodoItem todo={todo} key={todo._id} />
+  //   ))
+  // }
 
   const renderText = () => {
     //declare tomorrow date
@@ -75,7 +100,7 @@ const TodoList = ({
           {isLoading ? (
             <SmallHeartLoader />
           ) : sortedDisplayedTodos.length > 0 ? (
-            renderTodoList()
+            renderTrailedTodoList()
           ) : (
             renderText()
           )}

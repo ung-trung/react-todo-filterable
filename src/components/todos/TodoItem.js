@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import WatchLoader from '../layouts/Loaders/WatchLoader'
+import { useSpring, animated } from 'react-spring'
 
 import {
   setCurrentTodo,
@@ -35,6 +36,10 @@ const TodoItem = ({
       } else return false
     } else return false
   }
+  const props = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: isExpand() ? 1 : 0 }
+  })
 
   const renderDownArrow = () => (
     <span className="icon">
@@ -64,15 +69,20 @@ const TodoItem = ({
     }
   }
 
-  const renderPurposeTag = () => {
-    if (purpose === 'Work') {
-      return <span className="tag is-danger">{purpose}</span>
+  const renderItemColor = () => {
+    switch (purpose) {
+      case 'Work':
+        return 'is-danger'
+      case 'Family':
+        return 'is-primary'
+      default:
+        return 'is-warning'
     }
-    if (purpose === 'Family') {
-      return <span className="tag is-primary">{purpose}</span>
-    }
-    return <span className="tag is-warning">{purpose}</span>
   }
+
+  const renderPurposeTag = () => (
+    <span className={`tag ${renderItemColor()}`}>{purpose}</span>
+  )
 
   if (isSingleTodoLoading && clickedTodo._id === _id) {
     return (
@@ -85,7 +95,7 @@ const TodoItem = ({
   }
 
   return (
-    <div className="card">
+    <div className="card" style={{ opacity: 0.9 }}>
       <header className="card-header">
         <div
           className="card-header-title"
@@ -126,7 +136,7 @@ const TodoItem = ({
       </header>
 
       {isExpand() && (
-        <>
+        <animated.div style={props}>
           <div className="card-content">
             <div className="content">
               Type: {renderPurposeTag()}
@@ -153,7 +163,7 @@ const TodoItem = ({
               </div>
             </div>
           </div>
-        </>
+        </animated.div>
       )}
     </div>
   )
