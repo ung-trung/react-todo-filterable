@@ -10,6 +10,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 
 import formatDateString from '../utils/formatDateString'
+import parseStringDate from '../utils/parseStringDate'
 
 export const DateFilterInput = props => {
   const { label, input, meta, distinctDays } = props
@@ -26,7 +27,9 @@ export const DateFilterInput = props => {
 
   return (
     <DayPickerInput
-      format="DD/MM/YYYY"
+      format="d-M-yyyy"
+      formatDate={formatDateString}
+      parseDate={parseStringDate}
       inputProps={{ ...input, label, meta }}
       dayPickerProps={{
         modifiers: { ...modifiers },

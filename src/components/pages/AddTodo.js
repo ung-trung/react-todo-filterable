@@ -2,14 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import TodoForm from '../todos/TodoForm'
 
-import { addTodo } from '../../actions'
+import { addTodo, setCurrentSelectedDay } from '../../actions'
+
+import parseStringDate from '../utils/parseStringDate'
 import formatDateString from '../utils/formatDateString'
-import today from '../utils/today'
+
 import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
 
-const AddTodo = ({ addTodo, initialValues, history, isLoadingNewAdd }) => {
+const AddTodo = ({
+  addTodo,
+  setCurrentSelectedDay,
+  initialValues,
+  history,
+  isLoadingNewAdd
+}) => {
   const onSubmit = async value => {
     await addTodo({ ...value, isCompleted: false })
+    setCurrentSelectedDay(formatDateString(value.createDate))
     history.push('/')
   }
 
@@ -42,12 +51,12 @@ const AddTodo = ({ addTodo, initialValues, history, isLoadingNewAdd }) => {
 
 const mapStateToProps = state => ({
   initialValues: state.filter.currentSelected
-    ? { createDate: formatDateString(state.filter.currentSelected) }
-    : { createDate: formatDateString(today) },
+    ? { createDate: parseStringDate(state.filter.currentSelected) }
+    : { createDate: new Date() },
   isLoadingNewAdd: state.todos.isSingleTodoLoading
 })
 
 export default connect(
   mapStateToProps,
-  { addTodo }
+  { addTodo, setCurrentSelectedDay }
 )(AddTodo)

@@ -2,13 +2,21 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import TodoForm from '../todos/TodoForm'
 
-import { editTodo, fetchTodos, setCurrentTodo } from '../../actions'
+import formatDateString from '../utils/formatDateString'
+
+import {
+  editTodo,
+  fetchTodos,
+  setCurrentTodo,
+  setCurrentSelectedDay
+} from '../../actions'
 import BigHeartLoader from '../layouts/Loaders/BigHeartLoader'
 
 const EditTodo = ({
   editTodo,
   fetchTodos,
   setCurrentTodo,
+  setCurrentSelectedDay,
   match,
   currentTodo,
   history,
@@ -26,6 +34,7 @@ const EditTodo = ({
 
   const onSubmit = async value => {
     await editTodo({ ...value })
+    setCurrentSelectedDay(formatDateString(value.createDate))
     history.push('/')
   }
 
@@ -48,7 +57,16 @@ const EditTodo = ({
           <TodoForm
             buttonText="Submit"
             onSubmit={onSubmit}
-            initialValues={currentTodo !== null ? { ...currentTodo } : null}
+            initialValues={
+              currentTodo !== null
+                ? {
+                    ...currentTodo,
+                    createDate: formatDateString(
+                      new Date(currentTodo.createDate)
+                    )
+                  }
+                : null
+            }
           />
         </div>
       </div>
@@ -63,5 +81,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editTodo, fetchTodos, setCurrentTodo }
+  { editTodo, fetchTodos, setCurrentTodo, setCurrentSelectedDay }
 )(EditTodo)

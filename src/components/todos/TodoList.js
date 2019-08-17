@@ -14,17 +14,21 @@ import today from '../utils/today'
 import getDisplayedTodos from '../utils/getDisplayedTodos'
 import WatchLoader from '../layouts/Loaders/WatchLoader'
 
+import parseStringDate from '../utils/parseStringDate'
+import { isBefore, isToday, isTomorrow } from 'date-fns'
+
 const TodoList = ({
-  selectedDay,
+  selectedDayString,
   sortedDisplayedTodos,
   fetchTodos,
   isLoading
 }) => {
-  const selectedDayString = formatDateString(new Date(selectedDay))
-
   useEffect(() => {
     fetchTodos()
   }, [fetchTodos])
+
+  const selectedDay = parseStringDate(selectedDayString)
+  const todayWithoutTime = parseStringDate(formatDateString(today))
 
   const renderTodoList = () => {
     return sortedDisplayedTodos.map(todo => (
@@ -33,21 +37,17 @@ const TodoList = ({
   }
 
   const renderText = () => {
-    //declare tomorrow date
-    const tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-
-    if (selectedDayString < formatDateString(today)) {
-      return 'You cannot add New Todo in the past.'
+    if (isBefore(selectedDay, todayWithoutTime)) {
+      return <div>You cannot add New Todo in the past.</div>
     }
-    if (selectedDayString === formatDateString(today)) {
-      return 'Please add some todos for today.'
+    if (isToday(selectedDay)) {
+      return <div>Please add some todos for today.</div>
     }
-    if (selectedDayString === formatDateString(tomorrow)) {
-      return `Please add some todos for tomorrow.`
+    if (isTomorrow(selectedDay)) {
+      return <div> Please add some todos for tomorrow.</div>
     }
 
-    return `Please add some todos for the day ${selectedDayString}.`
+    return <div>Please add some todos for the day {selectedDayString}.</div>
   }
 
   return (
@@ -82,21 +82,21 @@ const TodoList = ({
 
         {/* </div> */}
         <Link
-          style={{ marginBlockStart: 12 }}
+          style={{ marginBlockStart: 12, marginTop: 12 }}
           className={
-            selectedDayString < formatDateString(today)
+            isBefore(selectedDay, todayWithoutTime)
               ? 'button is-pulled-right is-light is-static'
               : 'button is-pulled-right is-danger'
           }
-          to={selectedDayString < formatDateString(today) ? '/' : '/addTodo'}>
-          {selectedDayString > formatDateString(today) && (
+          to={isBefore(selectedDay, todayWithoutTime) ? '/' : '/addTodo'}>
+          {!isBefore(selectedDay, todayWithoutTime) && (
             <span className="icon">
               <i className="fas fa-plus" />
             </span>
           )}
 
           <span>
-            {selectedDayString < formatDateString(today)
+            {isBefore(selectedDay, todayWithoutTime)
               ? 'No cheating :)'
               : 'New Todo'}
           </span>
@@ -108,10 +108,10 @@ const TodoList = ({
 
 const mapStateToProps = state => ({
   isLoading: state.todos.isLoading,
-  selectedDay:
+  selectedDayString:
     state.form.daySort !== undefined
       ? state.form.daySort.values.selectedDay
-      : new Date(),
+      : formatDateString(today),
   sortedDisplayedTodos:
     state.form.daySort !== undefined
       ? getDisplayedTodos(
