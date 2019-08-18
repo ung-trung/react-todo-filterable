@@ -149,10 +149,11 @@ const mapStateToProps = state => ({
           state.todos.todos,
           state.form.daySort.values.selectedDay
         ).sort((a, b) => {
-          if (a.isImportant !== b.isImportant) {
+          if (a.isCompleted === b.isCompleted) {
+            if (a.isImportant === b.isImportant) {
+              return a.purpose > b.purpose ? -1 : 1
+            }
             return a.isImportant ? -1 : 1
-          } else if (a.isCompleted === b.isCompleted) {
-            return a.purpose > b.purpose ? -1 : 1
           } else {
             return a.isCompleted ? 1 : -1
           }
