@@ -95,23 +95,22 @@ const TodoList = ({
         />
         <ProgressBar />
 
-        {/* <div //handle too many todos via putting it in a scrollable div
+        <div //handle too many todos via putting it in a scrollable div
           style={{
             maxHeight: '350px',
             scrollbarWidth: 'none',
             minWidth: '200px',
             overflowY: 'auto',
             marginBottom: '15px'
-          }}> */}
-        {isLoading ? (
-          <WatchLoader />
-        ) : sortedDisplayedTodos.length > 0 ? (
-          renderTodoList()
-        ) : (
-          renderText()
-        )}
-
-        {/* </div> */}
+          }}>
+          {isLoading ? (
+            <WatchLoader />
+          ) : sortedDisplayedTodos.length > 0 ? (
+            renderTodoList()
+          ) : (
+            renderText()
+          )}
+        </div>
         <Link
           style={{ marginBlockStart: 12, marginTop: 12 }}
           className={

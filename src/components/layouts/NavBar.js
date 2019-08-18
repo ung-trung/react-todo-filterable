@@ -43,10 +43,10 @@ const NavBar = ({ isAuthenticated, logout }) => {
 
           <div className="navbar-end">
             <div
-              className="navbar-item"
+              className="navbar-item is-tab"
               onClick={darkMode.toggle}
               style={{ cursor: 'pointer' }}>
-              {darkMode.value ? 'Use Light Mode' : 'Use Dark Mode'}
+              {darkMode.value ? '☀' : '☾'}
             </div>
 
             {isAuthenticated ? (
