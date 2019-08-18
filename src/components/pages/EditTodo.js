@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import TodoForm from '../todos/TodoForm'
 
 import formatDateString from '../utils/formatDateString'
+import parseStringDate from '../utils/parseStringDate'
 
 import {
   editTodo,
@@ -61,8 +62,8 @@ const EditTodo = ({
               currentTodo !== null
                 ? {
                     ...currentTodo,
-                    createDate: formatDateString(
-                      new Date(currentTodo.createDate)
+                    createDate: parseStringDate(
+                      formatDateString(new Date(currentTodo.createDate))
                     )
                   }
                 : null
