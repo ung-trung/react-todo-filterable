@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { fetchTodos } from '../../actions'
+import { fetchTodos, editTodo } from '../../actions'
 import { Link } from 'react-router-dom'
 
 import TodoItem from './TodoItem'
@@ -17,18 +17,48 @@ import WatchLoader from '../layouts/Loaders/WatchLoader'
 import parseStringDate from '../utils/parseStringDate'
 import { isBefore, isToday, isTomorrow } from 'date-fns'
 
+let didUpdate = false
+
 const TodoList = ({
   selectedDayString,
   sortedDisplayedTodos,
+  allTodos,
   fetchTodos,
+  editTodo,
   isLoading
 }) => {
+  const selectedDay = parseStringDate(selectedDayString)
+  const todayWithoutTime = parseStringDate(formatDateString(today))
+
   useEffect(() => {
     fetchTodos()
   }, [fetchTodos])
 
-  const selectedDay = parseStringDate(selectedDayString)
-  const todayWithoutTime = parseStringDate(formatDateString(today))
+  useEffect(() => {
+    const needUpdatedTodos = allTodos.filter(
+      todo =>
+        todo.mustBeCompleted === true &&
+        isBefore(new Date(todo.createDate), todayWithoutTime)
+    )
+
+    let updateCount = 0
+
+    if (needUpdatedTodos.length !== 0 && !didUpdate) {
+      const now = new Date()
+      for (const todo of needUpdatedTodos) {
+        editTodo({ ...todo, createDate: now.toISOString() })
+        ++updateCount
+      }
+      alert(
+        `${needUpdatedTodos
+          .map(todo => `${todo.header} has been moved to today!!\n`)
+          .join()}`
+      )
+      return () => {
+        didUpdate = updateCount === needUpdatedTodos.length ? true : false
+      }
+    }
+  }, [allTodos, editTodo, todayWithoutTime])
 
   const renderTodoList = () => {
     return sortedDisplayedTodos.map(todo => (
@@ -112,13 +142,16 @@ const mapStateToProps = state => ({
     state.form.daySort !== undefined
       ? state.form.daySort.values.selectedDay
       : formatDateString(today),
+  allTodos: state.todos.todos,
   sortedDisplayedTodos:
     state.form.daySort !== undefined
       ? getDisplayedTodos(
           state.todos.todos,
           state.form.daySort.values.selectedDay
         ).sort((a, b) => {
-          if (a.isCompleted === b.isCompleted) {
+          if (a.isImportant !== b.isImportant) {
+            return a.isImportant ? -1 : 1
+          } else if (a.isCompleted === b.isCompleted) {
             return a.purpose > b.purpose ? -1 : 1
           } else {
             return a.isCompleted ? 1 : -1
@@ -129,5 +162,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchTodos }
+  { fetchTodos, editTodo }
 )(TodoList)

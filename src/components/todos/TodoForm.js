@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import DateInput from '../layouts/DateInput'
 import RenderTextInput from '../layouts/RenderTextInput'
 import RenderRadio from '../layouts/RenderRadio'
+import RenderCheckBox from '../layouts/RenderCheckBox'
 
 const validate = ({ header, description, createDate, purpose }) => {
   const errors = {}
@@ -70,6 +71,18 @@ const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
         </div>
       </div>
       <Field name="createDate" component={DateInput} label="Choose Date" />
+      <Field
+        name="isImportant"
+        type="checkbox"
+        text="This todo is important !!!"
+        component={RenderCheckBox}
+      />
+      <Field
+        name="mustBeCompleted"
+        type="checkbox"
+        text="This todo must be completed."
+        component={RenderCheckBox}
+      />
 
       <div className="divider" />
       <div className="field is-grouped is-pulled-right">

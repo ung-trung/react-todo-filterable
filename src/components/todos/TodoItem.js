@@ -33,7 +33,7 @@ const TodoItem = ({
   isSingleTodoLoading,
   clickedTodo
 }) => {
-  const { header, description, _id, isCompleted, purpose } = todo
+  const { header, description, _id, isCompleted, purpose, isImportant } = todo
 
   const isExpand = () => {
     if (currentTodo) {
@@ -174,7 +174,10 @@ const TodoItem = ({
               {toUpperCaseFirstLetter(header)}
             </span>
           ) : (
-            <div className="">{toUpperCaseFirstLetter(header)}</div>
+            <div className="">
+              {toUpperCaseFirstLetter(header)}{' '}
+              {isImportant && <span className="tag is-danger">!!!</span>}
+            </div>
           )}
         </div>
 

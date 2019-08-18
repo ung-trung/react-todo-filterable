@@ -51,8 +51,12 @@ const AddTodo = ({
 
 const mapStateToProps = state => ({
   initialValues: state.filter.currentSelected
-    ? { createDate: parseStringDate(state.filter.currentSelected) }
-    : { createDate: new Date() },
+    ? {
+        createDate: parseStringDate(state.filter.currentSelected),
+        mustBeCompleted: false,
+        isImportant: false
+      }
+    : { createDate: new Date(), mustBeCompleted: false, isImportant: false },
   isLoadingNewAdd: state.todos.isSingleTodoLoading
 })
 
