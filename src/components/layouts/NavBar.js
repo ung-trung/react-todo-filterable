@@ -3,8 +3,11 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../../actions'
+import useDarkMode from 'use-dark-mode'
 
 const NavBar = ({ isAuthenticated, logout }) => {
+  const darkMode = useDarkMode(false)
+
   const [active, setActive] = useState('')
   const burgerClick = () =>
     active === '' ? setActive('is-active') : setActive('')
@@ -39,6 +42,13 @@ const NavBar = ({ isAuthenticated, logout }) => {
           </div>
 
           <div className="navbar-end">
+            <div
+              className="navbar-item"
+              onClick={darkMode.toggle}
+              style={{ cursor: 'pointer' }}>
+              {darkMode.value ? 'Use Light Mode' : 'Use Dark Mode'}
+            </div>
+
             {isAuthenticated ? (
               <>
                 <div

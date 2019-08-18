@@ -34,6 +34,7 @@ const TodoList = ({
     fetchTodos()
   }, [fetchTodos])
 
+  // update mustBeCompleted Todo in the past
   useEffect(() => {
     const needUpdatedTodos = allTodos.filter(
       todo =>
