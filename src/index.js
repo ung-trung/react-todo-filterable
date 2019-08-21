@@ -5,10 +5,7 @@ import * as serviceWorker from './serviceWorker'
 
 //css
 import './css/style.scss'
-import 'bulma/css/bulma.css'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import 'bulma-divider/dist/css/bulma-divider.min.css'
-import 'bulma-switch/dist/css/bulma-switch.min.css'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 

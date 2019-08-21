@@ -1,14 +1,24 @@
+@charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
 ::-webkit-scrollbar {
   display: none;
 }
+
+// Set your brand colors
+$purple: #8a4d76;
+$pink: #fa7c91;
+$brown: #757763;
+$beige-light: #d0d1cd;
+$beige-lighter: #eff0eb;
 
 body {
   overflow: hidden;
   min-height: calc(100vh - 52px);
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 body.light-mode {
   background-color: #fff;
@@ -19,15 +29,21 @@ body.light-mode {
 body.dark-mode {
   background-color: #10171d;
   color: #dfdfdf;
+  //$family-sans-serif: 'Nunito', sans-serif;
+  .DayPicker {
+    color: #333;
+  }
 
   .navbar {
     background-color: #1b2938;
   }
-
-  .dark-mode-toggle > button {
-    color: #999;
-    &:last-child {
-      color: lightblue;
-    }
-  }
 }
+
+// Update Bulma's global variables
+
+// Update some of Bulma's component variables
+
+//import bulma style
+@import '~bulma/bulma';
+@import '~bulma-switch/dist/css/bulma-switch';
+@import '~bulma-divider/dist/css/bulma-divider';
