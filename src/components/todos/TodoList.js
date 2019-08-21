@@ -39,7 +39,8 @@ const TodoList = ({
     const needUpdatedTodos = allTodos.filter(
       todo =>
         todo.mustBeCompleted === true &&
-        isBefore(new Date(todo.createDate), todayWithoutTime)
+        isBefore(new Date(todo.createDate), todayWithoutTime) &&
+        todo.isCompleted === false
     )
 
     let updateCount = 0
