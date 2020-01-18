@@ -27,11 +27,15 @@ body.light-mode {
 }
 
 body.dark-mode {
-  background-color: #10171d;
+  background-color: #202020;
   color: #dfdfdf;
   //$family-sans-serif: 'Nunito', sans-serif;
   .DayPicker {
     color: #333;
+  }
+
+  .title {
+    color: #dfdfdf;
   }
 
   .navbar {
