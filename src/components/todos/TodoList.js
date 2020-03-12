@@ -12,12 +12,17 @@ import formatDateString from '../utils/formatDateString'
 import today from '../utils/today'
 
 import getDisplayedTodos from '../utils/getDisplayedTodos'
+import getHellos from '../utils/getHellos'
 import WatchLoader from '../layouts/Loaders/WatchLoader'
 
 import parseStringDate from '../utils/parseStringDate'
 import { isBefore, isToday, isTomorrow } from 'date-fns'
+import useDebounce from '../utils/useDebounce'
 
 let didUpdate = false
+
+const hellos = getHellos()
+const randomIndex = Math.ceil(Math.random() * (hellos.length - 1))
 
 const TodoList = ({
   selectedDayString,
@@ -25,7 +30,8 @@ const TodoList = ({
   allTodos,
   fetchTodos,
   editTodo,
-  isLoading
+  isLoading,
+  userFirstName
 }) => {
   const selectedDay = parseStringDate(selectedDayString)
   const todayWithoutTime = parseStringDate(formatDateString(today))
@@ -86,8 +92,15 @@ const TodoList = ({
     <>
       <div className="columns is-mobile is-multiline is-centered">
         <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+          <h2 className="subtitle">
+            Let me greet you in {hellos[randomIndex].language}!
+          </h2>
+        </div>
+      </div>
+      <div className="columns is-mobile is-multiline is-centered">
+        <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
           <h1 className="title" style={{ marginBottom: '6px' }}>
-            My Tasks
+            {hellos[randomIndex].hello} {userFirstName}
           </h1>
 
           <TodoFilter />
@@ -161,7 +174,8 @@ const mapStateToProps = state => ({
             return a.isCompleted ? 1 : -1
           }
         })
-      : []
+      : [],
+  userFirstName: state.auth.user.firstName
 })
 
 export default connect(mapStateToProps, { fetchTodos, editTodo })(TodoList)
