@@ -24,6 +24,7 @@ export const DateInput = props => {
         input.onChange(e)
       }}
       component={RenderDateInput}
+      style={{ width: '100%' }}
     />
   )
 }

@@ -54,13 +54,18 @@ const mapStateToProps = state => ({
     ? {
         createDate: parseStringDate(state.filter.currentSelected),
         mustBeCompleted: false,
-        isImportant: false
+        isImportant: false,
+        subUsers: []
       }
-    : { createDate: new Date(), mustBeCompleted: false, isImportant: false },
+    : {
+        createDate: new Date(),
+        mustBeCompleted: false,
+        isImportant: false,
+        subUsers: []
+      },
   isLoadingNewAdd: state.todos.isSingleTodoLoading
 })
 
-export default connect(
-  mapStateToProps,
-  { addTodo, setCurrentSelectedDay }
-)(AddTodo)
+export default connect(mapStateToProps, { addTodo, setCurrentSelectedDay })(
+  AddTodo
+)

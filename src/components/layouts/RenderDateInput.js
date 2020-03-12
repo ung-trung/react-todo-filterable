@@ -1,21 +1,26 @@
 import React, { Component } from 'react'
 import RenderError from './RenderError'
 
+import TextField from '@material-ui/core/TextField'
 // I need to use class component here because react-day-picker use this components with ref
 
 export class RenderDateInput extends Component {
   render() {
+    const { label, ...props } = this.props
+
     return (
       <div className="field">
         <label htmlFor="" className="label">
-          {this.props.label}
+          {label}
         </label>
         <div className="control">
-          <input
+          <TextField
             className="input"
-            {...this.props}
-            style={{ marginBottom: '0.75rem' }}
+            {...props}
+            style={{ marginBottom: '1.25rem' }}
             autoComplete="off"
+            variant="outlined"
+            fullWidth
           />
         </div>
         {RenderError(this.props.meta)}

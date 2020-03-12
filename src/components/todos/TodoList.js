@@ -83,57 +83,59 @@ const TodoList = ({
   }
 
   return (
-    <div className="columns is-mobile is-multiline is-centered">
-      <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
-        <h1 className="title" style={{ marginBottom: '6px' }}>
-          My Tasks
-        </h1>
+    <>
+      <div className="columns is-mobile is-multiline is-centered">
+        <div className="column is-12-mobile is-two-thirds-tablet is-half-desktop is-one-third-widescreen is-one-quarter-fullhd">
+          <h1 className="title" style={{ marginBottom: '6px' }}>
+            My Tasks
+          </h1>
 
-        <TodoFilter />
-        <hr
-          className="is-divider"
-          style={{ marginBlockStart: '2px', marginBlockEnd: '12px' }}
-        />
-        <ProgressBar />
+          <TodoFilter />
+          <hr
+            className="is-divider"
+            style={{ marginBlockStart: '10px', marginBlockEnd: '12px' }}
+          />
+          <ProgressBar />
 
-        <div //handle too many todos via putting it in a scrollable div
-          style={{
-            maxHeight: '350px',
-            scrollbarWidth: 'none',
-            minWidth: '200px',
-            overflowY: 'auto',
-            marginBottom: '15px'
-          }}>
-          {isLoading ? (
-            <WatchLoader />
-          ) : sortedDisplayedTodos.length > 0 ? (
-            renderTodoList()
-          ) : (
-            renderText()
-          )}
-        </div>
-        <Link
-          style={{ marginBlockStart: 12, marginTop: 12 }}
-          className={
-            isBefore(selectedDay, todayWithoutTime)
-              ? 'button is-pulled-right is-light is-static'
-              : 'button is-pulled-right is-danger'
-          }
-          to={isBefore(selectedDay, todayWithoutTime) ? '/' : '/addTodo'}>
-          {!isBefore(selectedDay, todayWithoutTime) && (
-            <span className="icon">
-              <i className="fas fa-plus" />
+          <div //handle too many todos via putting it in a scrollable div
+            style={{
+              maxHeight: '350px',
+              scrollbarWidth: 'none',
+              minWidth: '200px',
+              overflowY: 'auto',
+              marginBottom: '15px'
+            }}>
+            {isLoading ? (
+              <WatchLoader />
+            ) : sortedDisplayedTodos.length > 0 ? (
+              renderTodoList()
+            ) : (
+              renderText()
+            )}
+          </div>
+          <Link
+            style={{ marginBlockStart: 12, marginTop: 12 }}
+            className={
+              isBefore(selectedDay, todayWithoutTime)
+                ? 'button is-pulled-right is-light is-static'
+                : 'button is-pulled-right is-danger'
+            }
+            to={isBefore(selectedDay, todayWithoutTime) ? '/' : '/addTodo'}>
+            {!isBefore(selectedDay, todayWithoutTime) && (
+              <span className="icon">
+                <i className="fas fa-plus" />
+              </span>
+            )}
+
+            <span>
+              {isBefore(selectedDay, todayWithoutTime)
+                ? 'No cheating :)'
+                : 'New Todo'}
             </span>
-          )}
-
-          <span>
-            {isBefore(selectedDay, todayWithoutTime)
-              ? 'No cheating :)'
-              : 'New Todo'}
-          </span>
-        </Link>
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -162,7 +164,4 @@ const mapStateToProps = state => ({
       : []
 })
 
-export default connect(
-  mapStateToProps,
-  { fetchTodos, editTodo }
-)(TodoList)
+export default connect(mapStateToProps, { fetchTodos, editTodo })(TodoList)

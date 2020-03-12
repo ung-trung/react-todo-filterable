@@ -15,26 +15,38 @@ import Register from './components/pages/Register'
 import Login from './components/pages/Login'
 
 import setAuthToken from './components/utils/setAuthToken'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#ff3860'
+    },
+    tonalOffset: 0.2
+  }
+})
 
 setAuthToken(localStorage.token)
 
 function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <NavBar />
+      <ThemeProvider theme={theme}>
+        <Router>
+          <NavBar />
 
-        <Switch>
-          <PrivateRoute path="/" exact component={Home} />
-          <Route path="/about" exact component={About} />
-          <PrivateRoute path="/addTodo" exact component={AddTodo} />
-          <PrivateRoute path="/editTodo/:id" exact component={EditTodo} />
-          <Route path="/signup" exact component={Register} />
-          <Route path="/login" exact component={Login} />
-        </Switch>
-      </Router>
+          <Switch>
+            <PrivateRoute path="/" exact component={Home} />
+            <Route path="/about" exact component={About} />
+            <PrivateRoute path="/addTodo" exact component={AddTodo} />
+            <PrivateRoute path="/editTodo/:id" exact component={EditTodo} />
+            <Route path="/signup" exact component={Register} />
+            <Route path="/login" exact component={Login} />
+          </Switch>
+        </Router>
 
-      <TodayNotification />
+        <TodayNotification />
+      </ThemeProvider>
     </Provider>
   )
 }

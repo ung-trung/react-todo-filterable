@@ -1,12 +1,13 @@
 import React from 'react'
 
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, FieldArray } from 'redux-form'
 import { Link } from 'react-router-dom'
 
 import DateInput from '../layouts/DateInput'
 import RenderTextInput from '../layouts/RenderTextInput'
 import RenderRadio from '../layouts/RenderRadio'
 import RenderCheckBox from '../layouts/RenderCheckBox'
+import UserAutoCompleteInput from '../layouts/UserAutoCompleteInput'
 
 const validate = ({ header, description, createDate, purpose }) => {
   const errors = {}
@@ -47,6 +48,13 @@ const TodoForm = ({ onSubmit, buttonText, handleSubmit }) => {
         label="Enter Description"
         placeholder="Bring a banana..."
       />
+
+      <Field
+        name="subUsers"
+        component={UserAutoCompleteInput}
+        label="Sub Users"
+      />
+
       <div className="field">
         <label className="label">Choose Type</label>
         <div className="control">

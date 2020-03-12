@@ -1,6 +1,8 @@
 import React from 'react'
 import RenderError from './RenderError'
 
+import TextField from '@material-ui/core/TextField'
+
 const RenderInput = ({ input, label, meta, placeholder, type }) => {
   return (
     <div className="field">
@@ -8,11 +10,13 @@ const RenderInput = ({ input, label, meta, placeholder, type }) => {
         {label}
       </label>
       <div className="control">
-        <input
+        <TextField
           type={type}
-          className="input"
+          // className="input"
+          variant="outlined"
           {...input}
           autoComplete="off"
+          fullWidth
           placeholder={placeholder}
         />
       </div>
