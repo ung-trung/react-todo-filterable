@@ -108,6 +108,17 @@ const TodoItem = ({
     <span className={`tag ${renderItemTagColor()}`}>{purpose}</span>
   )
 
+  const renderSubUsers = () => {
+    if (currentTodo.subUsers.length > 0) {
+      return (
+        'Sub users: ' +
+        currentTodo.subUsers
+          .map(user => `${user.firstName} ${user.lastName}`)
+          .join(', ')
+      )
+    }
+  }
+
   const isLoading = () => {
     if (clickedTodo !== null) {
       return isSingleTodoLoading && clickedTodo._id === _id
@@ -194,8 +205,10 @@ const TodoItem = ({
         <animated.div style={props}>
           <div className="card-content" style={{ backgroundColor: Ice }}>
             <div className="content">
-              Type: {renderPurposeTag()}
-              <p>Description: {description}</p>
+              <div> Type: {renderPurposeTag()}</div>
+              <div>{renderSubUsers()}</div>
+              <p> Description: {description}</p>
+
               <div className="buttons">
                 <Link
                   className="button is-info"
@@ -230,15 +243,12 @@ const mapStateToProps = state => ({
   isSingleTodoLoading: state.todos.isSingleTodoLoading
 })
 
-export default connect(
-  mapStateToProps,
-  {
-    setCurrentTodo,
-    clearCurrentTodo,
-    setTodoComplete,
-    unsetTodoComplete,
-    deleteTodo,
-    setClickedTodo,
-    clearClickedTodo
-  }
-)(TodoItem)
+export default connect(mapStateToProps, {
+  setCurrentTodo,
+  clearCurrentTodo,
+  setTodoComplete,
+  unsetTodoComplete,
+  deleteTodo,
+  setClickedTodo,
+  clearClickedTodo
+})(TodoItem)
