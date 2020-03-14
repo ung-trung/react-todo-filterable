@@ -31,7 +31,8 @@ const TodoList = ({
   fetchTodos,
   editTodo,
   isLoading,
-  userFirstName
+  userFirstName,
+  userId
 }) => {
   const selectedDay = parseStringDate(selectedDayString)
   const todayWithoutTime = parseStringDate(formatDateString(today))
@@ -70,7 +71,11 @@ const TodoList = ({
 
   const renderTodoList = () => {
     return sortedDisplayedTodos.map(todo => (
-      <TodoItem todo={todo} key={todo._id} />
+      <TodoItem
+        todo={todo}
+        key={todo._id}
+        isSelfTodo={todo.user._id === userId}
+      />
     ))
   }
 
@@ -153,6 +158,7 @@ const TodoList = ({
 }
 
 const mapStateToProps = state => ({
+  userId: state.auth.user._id,
   isLoading: state.todos.isLoading,
   selectedDayString:
     state.form.daySort !== undefined

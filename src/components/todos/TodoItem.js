@@ -31,7 +31,8 @@ const TodoItem = ({
   setClickedTodo,
   clearClickedTodo,
   isSingleTodoLoading,
-  clickedTodo
+  clickedTodo,
+  isSelfTodo
 }) => {
   const { header, description, _id, isCompleted, purpose, isImportant } = todo
 
@@ -107,6 +108,10 @@ const TodoItem = ({
   const renderPurposeTag = () => (
     <span className={`tag ${renderItemTagColor()}`}>{purpose}</span>
   )
+
+  const renderUser = () => {
+    return `Created by: ${currentTodo.user.firstName} ${currentTodo.user.lastName}`
+  }
 
   const renderSubUsers = () => {
     if (currentTodo.subUsers.length > 0) {
@@ -187,7 +192,12 @@ const TodoItem = ({
           ) : (
             <div className="">
               {toUpperCaseFirstLetter(header)}{' '}
-              {isImportant && <span className="tag is-danger">!!!</span>}
+              {isImportant && <span className="tag is-danger">important</span>}
+              {!isSelfTodo && (
+                <span style={{ marginLeft: 4 }} className="tag is-warning">
+                  sub todo
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -206,6 +216,7 @@ const TodoItem = ({
           <div className="card-content" style={{ backgroundColor: Ice }}>
             <div className="content">
               <div> Type: {renderPurposeTag()}</div>
+              <div>{renderUser()}</div>
               <div>{renderSubUsers()}</div>
               <p> Description: {description}</p>
 
